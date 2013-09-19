@@ -94,7 +94,7 @@ xnoremap <Up>   gk
 
 " Press v twice to select to the end of the line.
 vnoremap v $h
-" Press Y to yank to the end of the line (written in the official help).
+" Press Y to yank to the end of the line (see :help Y).
 map Y y$
 
 " Shift + arrow to change window size.
@@ -210,7 +210,7 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))|w
 let autodate_format = "%Y-%m-%d"
 
 " Play sound on typing (Mac only: change 'afplay' to a cmd your OS supports)
-" Also, change '-' to <CR> (easier to type numbers)
+" Also, change '`' to <CR> (easier to type numbers)
 command NumSound call NumSoundToggle()
 let g:numsound_on = 0
 function! NumSoundToggle()
@@ -311,7 +311,7 @@ vnoremap ' "zdi'<C-R>z'<ESC>
 inoremap <C-L> <RIGHT>
 inoremap <C-H> <LEFT>
 
-" DiffOrig: See help DiffOrig, http://d.hatena.ne.jp/thinca/20130426/1366910837
+" DiffOrig: See :help DiffOrig, http://d.hatena.ne.jp/thinca/20130426/1366910837
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
 
