@@ -1,0 +1,12 @@
+# Exclude all files. Exclude all dot files.
+*
+# .*
+
+# But, DO NOT EXCLUDE the following files.
+!/.gitignore
+!/_vimrc
+
+
+# Furthermore, strongly EXCLUDE the following files.
+/.ssh/
+/.vim/bundle/*
