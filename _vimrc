@@ -53,9 +53,9 @@ filetype plugin on
 autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " type "gpy" to execute python on vim.
-autocmd FileType python nnoremap gpy :<C-u>! python %:p -v<CR>
+autocmd FileType python nnoremap gpy :<C-u>! python "%:p" -v<CR>
 " Require: viewoutput.vim
-autocmd FileType python nnoremap gpu :<C-u>VO !python %:p -v<CR>
+autocmd FileType python nnoremap gpu :<C-u>VO !python "%:p" -v<CR>
 " Require: Conque   "gpi" to use IPython, "gpo" to use ipdb and debug.
 let g:ConqueTerm_CWInsert = 1
 autocmd FileType python nnoremap gpi :<C-u>execute 'ConqueTermSplit ipython '.expand('%:p')<CR>
@@ -395,3 +395,47 @@ let g:clever_f_chars_match_any_signs=';'  " f; moves to all signs.
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
+
+" Toggle options
+" http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
+nnoremap <Space>ow
+\  :<C-u>setlocal wrap!
+\ \|     setlocal wrap?<CR>
+
+" textobj-multiblock
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
+
+
+" Conversational quit: http://blog.supermomonga.com/articles/vim/taiwa.html
+function! SelectInteractive(question, candidates) " {{{
+  try
+    let a:candidates[0] = toupper(a:candidates[0])
+    let l:select = 0
+    while index(a:candidates, l:select, 0, 1) == -1
+      let l:select = input(a:question . ' [' . join(a:candidates, '/') . '] ')
+      if l:select == ''
+        let l:select = a:candidates[0]
+      endif
+    endwhile
+    return tolower(l:select)
+  finally
+    redraw!
+  endtry
+endfunction " }}}
+function! BufferWipeoutInteractive() " {{{
+  if &modified == 1
+    let l:selected = SelectInteractive('Buffer is unsaved. What should I do?', ['n', 'w', 'q'])
+    if l:selected == 'w'
+      write
+      bwipeout
+    elseif l:selected == 'q'
+      bwipeout!
+    endif
+  else
+    bwipeout
+  endif
+endfunction " }}}
+nnoremap <c-x>k  :call BufferWipeoutInteractive()<cr>
