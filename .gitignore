@@ -5,8 +5,10 @@
 !/.gitignore
 !/_vimrc
 !/_gvimrc
+!/vimfiles/
+!/vimfiles/neobundle_setting.vim
 
 
 # Furthermore, strongly EXCLUDE the following files.
 /.ssh/
-/.vim/bundle/*
+/vimfiles/bundle/*

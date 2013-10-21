@@ -1,24 +1,5 @@
-" Add windows style runtimepath
-set runtimepath+=$HOME/vimfiles,$HOME/vimfiles/after
-set nocompatible
-
-" pathogen
-" call pathogen#runtime_append_all_bundles()
-runtime bundle/vim-pathogen-2.2/autoload/pathogen.vim
-call pathogen#infect()
-" call pathogen#helptags()  " Re-create helptags file. Goes bit slow.
-" Instead, use :Helptags when you installed a new plugin.
-
-" Change the location of .netrwhist (See :help netrw_home).
-" let g:netrw_home=expand('$HOME/vimfiles')
-"
-" Change the location of viminfo file (See :help 21.3 or
-" http://nanasi.jp/articles/howto/file/seemingly-unneeded-file.html#id14 ).
-" set viminfo+=n~/vimfiles/tmp/viminfo.txt
-"
-" .netrwhist and viminfo files contain environment-specific data, so I won't
-" put it in the Dropbox directory. That's why these are commented out.
-
+" Use NeoBundle
+source ~/vimfiles/neobundle_setting.vim
 
 set backspace=indent,eol,start  " Use backspace on everything in insert mode
 set history=50   " keep 50 lines of command line history
@@ -27,7 +8,8 @@ set showcmd      " display incomplete commands: may be slow if online.
 set incsearch    " do incremental searching
 set number       " Show line numbers
 set cindent      " This is smarter than smartindent. See :help C-indenting
-set scrolloff=5  " 5 lines before and after the current line when scrolling
+set scroll=8     " Lines to scroll by CTRL-D & CTRL-U
+set scrolloff=5  " Show 5 lines around the current line when scrolling.
 set ignorecase   " ignore case
 set smartcase    " but don't ignore if search string has uppercase letters
 set showmatch    " showmatch: Show the matching bracket for the last ')'?
@@ -69,6 +51,15 @@ autocmd FileType python nnoremap gpo :<C-u>execute 'ConqueTermSplit ipdb '.expan
 " See: :help errorformat-multi-line
 autocmd FileType python setl makeprg=python\ %
 autocmd FileType python setl efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+
+" Settings of jedi.vim:
+" Do not use auto-configuration. Do it by myself.
+" let g:jedi#auto_vim_configuration = 0
+" Do not select the first candidate when using autocompletion.
+let g:jedi#popup_select_first = 0
+let g:jedi#auto_vim_configuration = 1
+ " The reason to deactivate jedi#auto_vim_configuration
+au FileType python setlocal completeopt-=preview
 """""""""""""""""""" Python Settings  END  """"""""""""""""""""""""
 
 " Bring searched word to center.
@@ -193,11 +184,15 @@ vnoremap > >gv
 
 " Fast scroll by letters not by words.
 " Maps to normal and visual mode.
-map <silent> <S-h> 8h
-map <silent> <S-l> 8l
-map <silent> <S-j> 8j
-map <silent> <S-k> 8k
-map <silent> <S-x> 8x
+" map <silent> <S-h> 8h
+" map <silent> <S-l> 8l
+" map <silent> <C-d> 8j
+" map <silent> <C-u> 8k
+" map <silent> <S-x> 8x
+
+" Fix scroll size to 8 lines (see :help scroll).
+noremap <C-d> 8<C-d>
+noremap <C-u> 8<C-u>
 
 " open-browser.vim
 nmap <Leader>w <Plug>(openbrowser-open)
@@ -211,6 +206,7 @@ let autodate_format = "%Y-%m-%d"
 
 " Play sound on typing (Mac only: change 'afplay' to a cmd your OS supports)
 " Also, change '`' to <CR> (easier to type numbers)
+" Used voice file from: http://www14.big.or.jp/~amiami/happy/
 command NumSound call NumSoundToggle()
 let g:numsound_on = 0
 function! NumSoundToggle()
@@ -439,3 +435,6 @@ function! BufferWipeoutInteractive() " {{{
   endif
 endfunction " }}}
 nnoremap <c-x>k  :call BufferWipeoutInteractive()<cr>
+
+" Use matchit
+runtime macros/matchit.vim

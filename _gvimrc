@@ -22,5 +22,5 @@ source $VIMRUNTIME/delmenu.vim
 set langmenu=none
 source $VIMRUNTIME/menu.vim
 
-" Do not use pop-up dialogue (use console dialogue). See: :help go-c
+" Do not use pop-up dialogue (use console dialogue instead). See: :help go-c
 set guioptions+=c
