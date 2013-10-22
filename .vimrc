@@ -357,7 +357,7 @@ nnoremap [Mark]l :<C-u>marks<CR>
 
 
 " {{{ Abbreviations
-abbr hgpy hoge piyo
+abbr hgpy hoge piyoa
 " }}}
 
 " Python test. Usage: :call PythonTest()
