@@ -184,11 +184,14 @@ vnoremap > >gv
 
 " Fast scroll by letters not by words.
 " Maps to normal and visual mode.
-" map <silent> <S-h> 8h
-" map <silent> <S-l> 8l
-" map <silent> <C-d> 8j
-" map <silent> <C-u> 8k
-" map <silent> <S-x> 8x
+" Originally, in normal mode, C-h & C-j are mapped to h & j, respectively,
+" C-k is mapped to nop, and C-l to redraw the screen. (see :h normal-index)
+" It is obvious that we can map these to 'quick-move' function.
+" Use :redr[aw]!<CR> to redraw the screen (see :help :redraw).
+map <silent> <C-h> 8h
+map <silent> <C-l> 8l
+map <silent> <C-j> 8j
+map <silent> <C-k> 8k
 
 " Fix scroll size to 8 lines (see :help scroll).
 noremap <C-d> 8<C-d>
@@ -201,8 +204,8 @@ vmap <Leader>w <Plug>(openbrowser-open)
 " Rename editing file by :Rename filename.ext
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))|w
 
-" autodate.vim: change format to ISO style.
-let autodate_format = "%Y-%m-%d"
+" autodate.vim: change format to ISO 8601 style.
+let autodate_format = "%F"
 
 " Play sound on typing (Mac only: change 'afplay' to a cmd your OS supports)
 " Also, change '`' to <CR> (easier to type numbers)
@@ -268,6 +271,7 @@ nnoremap <C-w><C-=> <C-w><S-=>
 
 " ISO 8601 date format, and time. See: http://www.w3.org/TR/NOTE-datetime
 " Also see: http://vim.wikia.com/wiki/Insert_current_date_or_time
+" %F: YYYY-MM-DD, %R: hh:mm, %T: hh:mm:ss, %z: TZD
 imap <silent> <C-D><C-D> <C-R>=strftime("%F")<CR>
 imap <silent> <C-T><C-T> <C-R>=strftime("%R")<CR>
 imap <silent> <C-D><C-T> <C-R>=strftime("%FT%T%z")<CR>
@@ -390,7 +394,18 @@ let g:clever_f_chars_match_any_signs=';'  " f; moves to all signs.
 " lightline.vim settings
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
+    \ 'component_function': {
+    \   'filename': 'MyFilename',
     \ }
+\ }
+function! MyFilename()
+    " If I could get the length of other strings, I would replace the
+    " magic number with it.
+    if strlen(expand('%:p')) > winwidth(0) - 60
+        return expand('%:p')[strlen(expand('%:p')) - winwidth(0) + 60:]
+    endif
+    return ('' != expand('%:p') ? expand('%:p') : '[No Name]')
+endfunction
 
 " Toggle options
 " http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
@@ -437,4 +452,6 @@ endfunction " }}}
 nnoremap <c-x>k  :call BufferWipeoutInteractive()<cr>
 
 " Use matchit
+set matchpairs+=<:>
 runtime macros/matchit.vim
+let b:match_words = "\begin:\end,\left:\right"

@@ -19,7 +19,7 @@ call neobundle#rc(expand('~/vimfiles/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Align'
-NeoBundle 'YankRing.vim'
+NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
 NeoBundle 'Arduino-syntax-file'
 NeoBundle 'ViewOutput'
 NeoBundle 'desert256.vim'
@@ -41,6 +41,9 @@ function! s:hooks.on_source(bundle)
     " let g:ctrlp_use_migemo = 1  " cmigemo is required.
     let g:ctrlp_clear_cache_on_exit = 0   " Do not clear cache on exit.
 endfunction
+unlet s:hooks
+let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-indent'
@@ -62,6 +65,7 @@ function! s:hooks.on_source(bundle)
   " Do not select the first candidate.
   let g:jedi#popup_select_first = 0
 endfunction
+unlet s:hooks
 NeoBundleLazy 'kevinw/pyflakes-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
 " Requires: brew install ctags
@@ -69,8 +73,16 @@ NeoBundleLazy 'majutsushi/tagbar', {
   \ "autoload": {
   \   "commands": ["TagbarToggle"],
   \ }}
+let s:hooks = neobundle#get_hooks("tagbar")
+function! s:hooks.on_source(bundle)
+let g:tagbar_type_typescript = {'ctagstype': 'typescript',
+    \ 'kinds': ['c:classes', 'n:modules', 'f:functions', 'v:variables', 'm:members',
+    \ 'i:interfaces', 'e:enums'] }
+endfunction
+unlet s:hooks
 nnoremap <leader>ta :TagbarToggle<CR>
 " Make Vim read Django correctly.
+NeoBundle "leafgarland/typescript-vim"
 NeoBundleLazy "lambdalisue/vim-django-support", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
@@ -80,6 +92,8 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ "autoload": {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'taichouchou2/html5.vim'
 
 
 filetype plugin indent on  " Required!
