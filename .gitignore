@@ -5,6 +5,8 @@
 !/.gitignore
 !/_vimrc
 !/_gvimrc
+!/.vimrc
+!/.gvimrc
 !/vimfiles/
 !/vimfiles/neobundle_setting.vim
 
