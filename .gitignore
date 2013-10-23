@@ -3,6 +3,7 @@
 
 # But, DO NOT EXCLUDE the following files.
 !/.gitignore
+!/README.md
 !/_vimrc
 !/_gvimrc
 !/.vimrc
