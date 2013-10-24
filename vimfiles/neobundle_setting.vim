@@ -53,15 +53,19 @@ NeoBundle 'sgur/vim-textobj-parameter'
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 NeoBundle 'bitbucket:ludovicchabant/vim-lawrencium'
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neocomplcache.vim', {
+    \ "autoload" : {
+        \ "filetypes" : [ "tex" ] } }
+NeoBundle 'Shougo/neosnippet.vim', {
+    \ "autoload" : {
+        \ "filetypes" : [ "python", "python3", "djangohtml", "tex" ] } }
 " Requires: pip install jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
 let s:hooks = neobundle#get_hooks("jedi-vim")
 function! s:hooks.on_source(bundle)
   " Configure manually
-  let g:jedi#auto_vim_configuration = 0
+  " let g:jedi#auto_vim_configuration = 0
   " Do not select the first candidate.
   let g:jedi#popup_select_first = 0
 endfunction

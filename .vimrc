@@ -57,9 +57,9 @@ autocmd FileType python setl efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z
 " let g:jedi#auto_vim_configuration = 0
 " Do not select the first candidate when using autocompletion.
 let g:jedi#popup_select_first = 0
-let g:jedi#auto_vim_configuration = 1
- " The reason to deactivate jedi#auto_vim_configuration
-au FileType python setlocal completeopt-=preview
+" let g:jedi#auto_vim_configuration = 1
+" The reason to deactivate jedi#auto_vim_configuration
+" au FileType python setlocal completeopt-=preview
 """""""""""""""""""" Python Settings  END  """"""""""""""""""""""""
 
 " Bring searched word to center.
@@ -165,17 +165,14 @@ let g:indent_guides_guide_size = 1
 let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 " neocomplcache
-" enable only on python and tex; add other FileTypes if needed.
-let g:neocomplcache_enable_at_startup = 0
 " Snippets keymap
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
-let g:neocomplcache_snippets_dir = '~/vimfiles/after/snippets'
-autocmd FileType python NeoComplCacheEnable
-autocmd FileType tex NeoComplCacheEnable
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+let g:neosnippet#snippets_directory = '~/vimfiles/after/snippets'
 nnoremap gne :NeoComplCacheEnable<CR>
 nnoremap gnd :NeoComplCacheDisable<CR>
-let g:neocomplcache_enable_auto_select = 1 " select the first item by default.
+" let g:neocomplcache_enable_auto_select = 1 "select the first item by default.
 
 
 " Keep selecting after indentation
