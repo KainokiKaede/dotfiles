@@ -36,8 +36,13 @@ autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,
 
 " type "gpy" to execute python on vim.
 autocmd FileType python nnoremap gpy :<C-u>! python "%:p" -v<CR>
-" Require: viewoutput.vim
-autocmd FileType python nnoremap gpu :<C-u>VO !python "%:p" -v<CR>
+" Type "gpu" to execute python and show the output in scratch buffer.
+" FYI: In scratch.vim, these 4 options are set: setl buftype=nofile bufhidden=hide noswapfile buflisted
+"      To make the buffer optional to save, buftype=nofile is the only necessary option to set.
+"      To know better, read the code: https://github.com/vim-scripts/scratch.vim/
+"      To learn why 'execute' is used, see :help :bar
+"      _ is the blackhole register. See :help registers
+autocmd FileType python nnoremap gpu :<C-u>new \| setl buftype=nofile \| execute'r!python "#:p" -v' \| 1delete _<CR> G
 " Require: Conque   "gpi" to use IPython, "gpo" to use ipdb and debug.
 let g:ConqueTerm_CWInsert = 1
 autocmd FileType python nnoremap gpi :<C-u>execute 'ConqueTermSplit ipython '.expand('%:p')<CR>

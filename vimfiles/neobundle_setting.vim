@@ -21,7 +21,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Align'
 NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
 NeoBundle 'Arduino-syntax-file'
-NeoBundle 'ViewOutput'
+" NeoBundle 'ViewOutput'
 NeoBundle 'desert256.vim'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'tpope/vim-surround'
