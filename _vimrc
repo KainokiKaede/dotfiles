@@ -19,7 +19,7 @@ set confirm      " Confirm when overwriting, quitting w/o saving, and else.
 set nobackup     " Do not create backup file.
 set virtualedit+=block     " select void in rectangle selection
 set formatoptions=q        " Disable auto-linebreak
-set textwidth=79           " PEP8 requirement.
+set textwidth=0            " Disable autoreturn (PEP8 requires textwidth=79)
 set whichwrap=b,s,<,>,[,]  " Wrap <BS>, <Space>, <LEFT>, <RIGHT>
 set list                   " Show invisible characters.
 set listchars=tab:>.,trail:_,extends:>,precedes:<   " How to show invisibles.
@@ -279,8 +279,7 @@ imap <silent> <C-T><C-T> <C-R>=strftime("%R")<CR>
 imap <silent> <C-D><C-T> <C-R>=strftime("%FT%T%z")<CR>
 
 " Set *.md filetype to markdown. Original: modula2
-" At the same time, disable autoreturn
-autocmd! BufNewFile,BufRead *.md setlocal ft=markdown textwidth=0
+autocmd! BufNewFile,BufRead *.md setlocal ft=markdown
 
 " Make temporary file.
 " Original: http://tekkoc.tumblr.com/post/41943190314/vim
@@ -457,3 +456,9 @@ nnoremap <c-x>k  :call BufferWipeoutInteractive()<cr>
 set matchpairs+=<:>
 runtime macros/matchit.vim
 let b:match_words = "\begin:\end,\left:\right"
+
+" Commands to easily change the encoding and newline chars of a file.
+command! ToUnix  setl fileencoding=utf8  fileformat=unix
+command! ToDosJa setl fileencoding=cp932 fileformat=dos
+command! ToMac   setl fileencoding=utf8  fileformat=mac
+command! ToUnixEucjp  setl fileencoding=eucjp  fileformat=unix
