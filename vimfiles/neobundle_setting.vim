@@ -107,6 +107,9 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 " NeoBundle 'gist:hail2u/747628', {
 "        \ 'name': 'markdown-cheat-sheet.jax',
 "        \ 'script_type': 'doc'}
+NeoBundle 'mrtazz/simplenote.vim'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'netrw.vim', '136'
 filetype plugin indent on  " Required!
 
 " Installation check.

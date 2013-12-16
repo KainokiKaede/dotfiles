@@ -467,3 +467,15 @@ command! ToUnixEucjp  setl fileencoding=eucjp  fileformat=unix
 " Using tyru/vim-altercmd
 call altercmd#load()  " This line is necessary to use altercmd in _vimrc.
 AlterCommand w up
+
+" SimpleNote Settings
+source ~/vimfiles/simplenote_setting.vim  " Username and password.
+command Simp Simplenote -l
+let g:SimplenoteFiletype = "markdown"
+
+" memolist.vim Settings
+let g:memolist_path = "~/Dropbox/Notes/memolistvim"
+" tags prompt (default 0)
+let g:memolist_prompt_tags = 1
+" categories prompt (default 0)
+let g:memolist_prompt_categories = 1
