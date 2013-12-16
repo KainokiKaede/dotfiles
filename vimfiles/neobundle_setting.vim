@@ -99,8 +99,14 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ }}
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
-
-
+NeoBundle 'tyru/vim-altercmd'
+" NeoBundle 'kana/vim-altercmd'
+NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
+       \ 'name': 'markdown-cheat.txt',
+       \ 'script_type': 'doc'}
+" NeoBundle 'gist:hail2u/747628', {
+"        \ 'name': 'markdown-cheat-sheet.jax',
+"        \ 'script_type': 'doc'}
 filetype plugin indent on  " Required!
 
 " Installation check.

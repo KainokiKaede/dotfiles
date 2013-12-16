@@ -462,3 +462,8 @@ command! ToUnix  setl fileencoding=utf8  fileformat=unix
 command! ToDosJa setl fileencoding=cp932 fileformat=dos
 command! ToMac   setl fileencoding=utf8  fileformat=mac
 command! ToUnixEucjp  setl fileencoding=eucjp  fileformat=unix
+
+" Change :w to :up (do not overwrite when there is no change).
+" Using tyru/vim-altercmd
+call altercmd#load()  " This line is necessary to use altercmd in _vimrc.
+AlterCommand w up
