@@ -110,6 +110,7 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 NeoBundle 'mrtazz/simplenote.vim'
 NeoBundle 'glidenote/memolist.vim'
 NeoBundle 'netrw.vim', '136'
+NeoBundle 'mhinz/vim-startify'
 filetype plugin indent on  " Required!
 
 " Installation check.
