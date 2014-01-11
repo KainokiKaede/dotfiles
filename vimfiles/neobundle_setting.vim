@@ -36,14 +36,6 @@ NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'add20/vim-conque'
 " NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'kien/ctrlp.vim'
-let s:hooks = neobundle#get_hooks("ctrlp.vim")
-function! s:hooks.on_source(bundle)
-    " let g:ctrlp_use_migemo = 1  " cmigemo is required.
-    let g:ctrlp_clear_cache_on_exit = 0   " Do not clear cache on exit.
-endfunction
-unlet s:hooks
-let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-indent'
@@ -63,14 +55,6 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " Requires: pip install jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
-let s:hooks = neobundle#get_hooks("jedi-vim")
-function! s:hooks.on_source(bundle)
-  " Configure manually
-  " let g:jedi#auto_vim_configuration = 0
-  " Do not select the first candidate.
-  let g:jedi#popup_select_first = 0
-endfunction
-unlet s:hooks
 NeoBundleLazy 'kevinw/pyflakes-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
 " Requires: brew install ctags
@@ -78,14 +62,6 @@ NeoBundleLazy 'majutsushi/tagbar', {
   \ "autoload": {
   \   "commands": ["TagbarToggle"],
   \ }}
-let s:hooks = neobundle#get_hooks("tagbar")
-function! s:hooks.on_source(bundle)
-let g:tagbar_type_typescript = {'ctagstype': 'typescript',
-    \ 'kinds': ['c:classes', 'n:modules', 'f:functions', 'v:variables', 'm:members',
-    \ 'i:interfaces', 'e:enums'] }
-endfunction
-unlet s:hooks
-nnoremap <leader>ta :TagbarToggle<CR>
 " Make Vim read Django correctly.
 NeoBundle "leafgarland/typescript-vim"
 NeoBundleLazy "lambdalisue/vim-django-support", {
@@ -99,8 +75,7 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ }}
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
-NeoBundle 'tyru/vim-altercmd'
-" NeoBundle 'kana/vim-altercmd'
+NeoBundle 'tyru/vim-altercmd'  " This is a fork of: 'kana/vim-altercmd'
 NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
        \ 'name': 'markdown-cheat.txt',
        \ 'script_type': 'doc'}
@@ -109,9 +84,86 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 "        \ 'script_type': 'doc'}
 NeoBundle 'mrtazz/simplenote.vim'
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'netrw.vim', '136'
-NeoBundle 'mhinz/vim-startify'
+NeoBundle 'netrw.vim', '136'  " There may be a bug in newest netrw, so use old.
+" NeoBundle 'mhinz/vim-startify'
+NeoBundle 'chrisbra/Recover.vim'
+NeoBundle 't9md/vim-quickhl'
+NeoBundle 'Shougo/context_filetype.vim'
+NeoBundle 'osyo-manga/vim-precious'
+NeoBundle 'kannokanno/previm'
+
 filetype plugin indent on  " Required!
+
+" Plugin settings:
+
+if neobundle#tap('clever-f.vim')
+    let g:clever_f_ignore_case=1  " Ignore case
+    let g:clever_f_smart_case=1   " Do not ignore when Upper case is searched.
+    let g:clever_f_use_migemo=1   " Enable migemo (Japanese) search.
+    let g:clever_f_fix_key_direction=1  " Always use f to move right, F to left.
+    let g:clever_f_chars_match_any_signs=';'  " f; moves to all signs.
+endif
+
+if neobundle#tap('lightline.vim')
+    let g:lightline = {
+        \ 'colorscheme': 'jellybeans',
+        \ 'component_function': {
+        \   'filename': 'MyFilename',
+        \ }
+    \ }
+    function! MyFilename()
+        " If I could get the length of other strings, I would replace the
+        " magic number with it.
+        if strlen(expand('%:p')) > winwidth(0) - 60
+            return expand('%:p')[strlen(expand('%:p')) - winwidth(0) + 60:]
+        endif
+        return ('' != expand('%:p') ? expand('%:p') : '[No Name]')
+    endfunction
+endif
+if neobundle#tap('vim-textobj-multiblock')
+    omap ab <Plug>(textobj-multiblock-a)
+    omap ib <Plug>(textobj-multiblock-i)
+    vmap ab <Plug>(textobj-multiblock-a)
+    vmap ib <Plug>(textobj-multiblock-i)
+endif
+if neobundle#tap('ctrlp.vim')
+    " let g:ctrlp_use_migemo = 1  " cmigemo is required.
+    let g:ctrlp_clear_cache_on_exit = 0   " Do not clear cache on exit.
+    let g:ctrlp_cmd = 'CtrlPMRU'
+    let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
+endif
+if neobundle#tap('jedi-vim')
+    " Configure manually
+    " let g:jedi#auto_vim_configuration = 0
+    " Do not select the first candidate.
+    let g:jedi#popup_select_first = 0
+endif
+if neobundle#tap('tagbar')
+    let g:tagbar_type_typescript = {'ctagstype': 'typescript',
+        \ 'kinds': ['c:classes', 'n:modules', 'f:functions', 'v:variables', 'm:members',
+        \ 'i:interfaces', 'e:enums'] }
+    nnoremap <leader>ta :TagbarToggle<CR>
+endif
+if neobundle#tap('simplenote.vim')
+    " SimpleNote Settings
+    source ~/vimfiles/simplenote_setting.vim  " Username and password.
+    command Simp Simplenote -l
+    let g:SimplenoteFiletype = "markdown"
+endif
+if neobundle#tap('memolist.vim')
+    " memolist.vim Settings
+    let g:memolist_path = "~/Dropbox/Notes/memolistvim"
+    " tags prompt (default 0)
+    let g:memolist_prompt_tags = 1
+    " categories prompt (default 0)
+    let g:memolist_prompt_categories = 1
+endif
+if neobundle#tap('vim-quickhl')
+    nmap <Space>h <Plug>(quickhl-manual-this)
+    xmap <Space>h <Plug>(quickhl-manual-this)
+    nmap <Space>H <Plug>(quickhl-manual-reset)
+    xmap <Space>H <Plug>(quickhl-manual-reset)
+endif
 
 " Installation check.
 NeoBundleCheck

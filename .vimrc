@@ -380,46 +380,22 @@ cnoremap <C-p> <UP>
 cnoremap <C-n> <DOWN>
 
 " sudowrite (from "Practical Vim") TIP45
-command Sudow write !sudo tee % > /dev/null
+" Improved: http://www.commandlinefu.com/commands/view/1204/save-a-file-you-edited-in-vim-without-the-needed-permissions
+" Improved: http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
+" Problem: If write somehow fails, changes might be lost because of edit!.
+"     This problem will solved by undoing an edit (don't panic and press u).
+" TODO: Find a way to show prompt 'Password:' but do not prompt 'hit-enter'.
+"       (Now I'm using a quite awkward workaround.)
+cmap w!! echo 'Password: ' \| silent execute 'write !sudo tee % > /dev/null' \| :edit!
 
 " Use %% to expand %:h (the directory of the file) (from "Practical Vim" TIP41)
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
-" Settings for clever-f
-let g:clever_f_ignore_case=1  " Ignore case
-let g:clever_f_smart_case=1   " Do not ignore when Upper case is searched.
-let g:clever_f_use_migemo=1   " Enable migemo (Japanese) search.
-let g:clever_f_fix_key_direction=1  " Always use f to move right, F to left.
-let g:clever_f_chars_match_any_signs=';'  " f; moves to all signs.
-
-" lightline.vim settings
-let g:lightline = {
-    \ 'colorscheme': 'jellybeans',
-    \ 'component_function': {
-    \   'filename': 'MyFilename',
-    \ }
-\ }
-function! MyFilename()
-    " If I could get the length of other strings, I would replace the
-    " magic number with it.
-    if strlen(expand('%:p')) > winwidth(0) - 60
-        return expand('%:p')[strlen(expand('%:p')) - winwidth(0) + 60:]
-    endif
-    return ('' != expand('%:p') ? expand('%:p') : '[No Name]')
-endfunction
 
 " Toggle options
 " http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
 nnoremap <Space>ow
 \  :<C-u>setlocal wrap!
 \ \|     setlocal wrap?<CR>
-
-" textobj-multiblock
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-vmap ab <Plug>(textobj-multiblock-a)
-vmap ib <Plug>(textobj-multiblock-i)
-
 
 " Conversational quit: http://blog.supermomonga.com/articles/vim/taiwa.html
 function! SelectInteractive(question, candidates) " {{{
@@ -468,14 +444,17 @@ command! ToUnixEucjp  setl fileencoding=eucjp  fileformat=unix
 call altercmd#load()  " This line is necessary to use altercmd in _vimrc.
 AlterCommand w up
 
-" SimpleNote Settings
-source ~/vimfiles/simplenote_setting.vim  " Username and password.
-command Simp Simplenote -l
-let g:SimplenoteFiletype = "markdown"
-
-" memolist.vim Settings
-let g:memolist_path = "~/Dropbox/Notes/memolistvim"
-" tags prompt (default 0)
-let g:memolist_prompt_tags = 1
-" categories prompt (default 0)
-let g:memolist_prompt_categories = 1
+" Automatically decide to split or vsplit from the aspect ratio of a window.
+" See: http://qiita.com/Linda_pp/items/392be95a195067d84fd8
+command! -nargs=? -complete=command SmartSplit call <SID>smart_split(<q-args>)
+function! s:smart_split(cmd)
+    if winwidth(0) > winheight(0) * 2
+        vsplit
+    else
+        split
+    endif
+    if !empty(a:cmd)
+        execute a:cmd
+    endif
+endfunction
+nnoremap <silent><C-w><Space> :<C-u>SmartSplit<CR>
