@@ -17,6 +17,7 @@ set wrap         " wrap by default
 set hidden       " use hidden buffers
 set confirm      " Confirm when overwriting, quitting w/o saving, and else.
 set nobackup     " Do not create backup file.
+set backupcopy=yes         " Making a copy and overwriting the original file.
 set virtualedit+=block     " select void in rectangle selection
 set formatoptions=q        " Disable auto-linebreak
 set textwidth=0            " Disable autoreturn (PEP8 requires textwidth=79)
@@ -458,3 +459,6 @@ function! s:smart_split(cmd)
     endif
 endfunction
 nnoremap <silent><C-w><Space> :<C-u>SmartSplit<CR>
+
+" Convert Markdown to TeX (using Pandoc).
+autocmd FileType markdown nnoremap gpy :<C-u>! pandoc -i "%:p" -o "%:p:r.tex"<CR>

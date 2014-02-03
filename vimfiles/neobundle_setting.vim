@@ -37,6 +37,7 @@ NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
+" NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-jabraces'
@@ -46,12 +47,9 @@ NeoBundle 'mattn/vim-textobj-url'
 NeoBundle 'osyo-manga/vim-textobj-multiblock'
 NeoBundle 'bitbucket:ludovicchabant/vim-lawrencium'
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'Shougo/neocomplcache.vim', {
-    \ "autoload" : {
-        \ "filetypes" : [ "tex" ] } }
-NeoBundle 'Shougo/neosnippet.vim', {
-    \ "autoload" : {
-        \ "filetypes" : [ "python", "python3", "djangohtml", "tex" ] } }
+NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
 " Requires: pip install jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
@@ -90,7 +88,10 @@ NeoBundle 'chrisbra/Recover.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'osyo-manga/vim-precious'
-NeoBundle 'kannokanno/previm'
+NeoBundleLazy 'kannokanno/previm', {
+      \ "autoload": {
+      \   "filetypes": ["markdown"]
+      \ }}
 
 filetype plugin indent on  " Required!
 
@@ -103,7 +104,6 @@ if neobundle#tap('clever-f.vim')
     let g:clever_f_fix_key_direction=1  " Always use f to move right, F to left.
     let g:clever_f_chars_match_any_signs=';'  " f; moves to all signs.
 endif
-
 if neobundle#tap('lightline.vim')
     let g:lightline = {
         \ 'colorscheme': 'jellybeans',
@@ -163,6 +163,12 @@ if neobundle#tap('vim-quickhl')
     xmap <Space>h <Plug>(quickhl-manual-this)
     nmap <Space>H <Plug>(quickhl-manual-reset)
     xmap <Space>H <Plug>(quickhl-manual-reset)
+endif
+if neobundle#tap('indentLine')
+    let g:indentLine_loaded = 1
+    " let g:indentLine_color_term = 239
+    " let g:indentLine_color_gui = '#A4E57E'
+    " let g:indentLine_char = '¦' "use ¦, ┆ or │
 endif
 
 " Installation check.
