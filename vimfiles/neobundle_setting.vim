@@ -28,6 +28,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-commentary'
 " NeoBundle 'tpope/vim-markdown'
+NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'mattn/calendar-vim'
 NeoBundle 'mattn/webapi-vim'
@@ -157,6 +158,8 @@ if neobundle#tap('memolist.vim')
     let g:memolist_prompt_tags = 1
     " categories prompt (default 0)
     let g:memolist_prompt_categories = 1
+    " open directory
+    command MemoOpen silent !open ~/Dropbox/Notes/memolistvim
 endif
 if neobundle#tap('vim-quickhl')
     nmap <Space>h <Plug>(quickhl-manual-this)

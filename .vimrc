@@ -462,3 +462,15 @@ nnoremap <silent><C-w><Space> :<C-u>SmartSplit<CR>
 
 " Convert Markdown to TeX (using Pandoc).
 autocmd FileType markdown nnoremap gpy :<C-u>! pandoc -i "%:p" -o "%:p:r.tex"<CR>
+
+" Surround URL with Markdown style. Inspired from:
+" http://stackoverflow.com/questions/9985360/vim-plugin-for-adding-external-links
+nnoremap <Leader>3 "uciw[<C-r>u]()<Esc>
+vnoremap <Leader>3 "uc[<C-r>u]()<Esc>
+nnoremap <Leader>4 "uciw[<C-r>u](<Esc>"*pa)<Esc>
+vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
+
+" netrw default sort settings:
+let g:netrw_sort_by="time"
+let g:netrw_sort_direction="reverse"
+let g:netrw_sort_options="i"  " Ignore case
