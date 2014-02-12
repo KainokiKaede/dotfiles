@@ -470,7 +470,8 @@ vnoremap <Leader>3 "uc[<C-r>u]()<Esc>
 nnoremap <Leader>4 "uciw[<C-r>u](<Esc>"*pa)<Esc>
 vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
 
-" netrw default sort settings:
+" netrw settings:
 let g:netrw_sort_by="time"
 let g:netrw_sort_direction="reverse"
 let g:netrw_sort_options="i"  " Ignore case
+let g:netrw_list_hide='.DS_Store,^\.git/$'  " Files and directories to hide
