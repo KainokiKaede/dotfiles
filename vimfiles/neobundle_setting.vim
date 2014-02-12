@@ -83,16 +83,23 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 "        \ 'script_type': 'doc'}
 NeoBundle 'mrtazz/simplenote.vim'
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'netrw.vim', '136'  " There may be a bug in newest netrw, so use old.
+" NeoBundle 'netrw.vim', '136'  " There may be a bug in newest netrw, so use old.
+NeoBundle 'bruno-/netrw'
 " NeoBundle 'mhinz/vim-startify'
 NeoBundle 'chrisbra/Recover.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'Shougo/context_filetype.vim'
-NeoBundle 'osyo-manga/vim-precious'
+NeoBundleLazy 'osyo-manga/vim-precious', {
+      \ "autoload": {
+      \   "filetypes": ["markdown"]
+      \ }}
 NeoBundleLazy 'kannokanno/previm', {
       \ "autoload": {
       \   "filetypes": ["markdown"]
       \ }}
+NeoBundle 'xolox/vim-session', {
+            \ 'depends' : 'xolox/vim-misc',
+          \ }
 
 filetype plugin indent on  " Required!
 
@@ -172,6 +179,10 @@ if neobundle#tap('indentLine')
     " let g:indentLine_color_term = 239
     " let g:indentLine_color_gui = '#A4E57E'
     " let g:indentLine_char = '¦' "use ¦, ┆ or │
+endif
+if neobundle#tap('vim-session')
+  let g:session_autosave = 'yes'
+  let g:session_autoload = 'no'
 endif
 
 " Installation check.
