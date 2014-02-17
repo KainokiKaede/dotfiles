@@ -28,7 +28,8 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-commentary'
 " NeoBundle 'tpope/vim-markdown'
-NeoBundle 'plasticboy/vim-markdown'
+" NeoBundle 'plasticboy/vim-markdown'
+" NeoBundle 'rcmdnk/vim-markdown'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'mattn/calendar-vim'
 NeoBundle 'mattn/webapi-vim'
@@ -38,7 +39,6 @@ NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
-" NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-jabraces'
@@ -83,9 +83,7 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 "        \ 'script_type': 'doc'}
 NeoBundle 'mrtazz/simplenote.vim'
 NeoBundle 'glidenote/memolist.vim'
-" NeoBundle 'netrw.vim', '136'  " There may be a bug in newest netrw, so use old.
 NeoBundle 'bruno-/netrw'
-" NeoBundle 'mhinz/vim-startify'
 NeoBundle 'chrisbra/Recover.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'Shougo/context_filetype.vim'
@@ -162,9 +160,9 @@ if neobundle#tap('memolist.vim')
     " memolist.vim Settings
     let g:memolist_path = "~/Dropbox/Notes/memolistvim"
     " tags prompt (default 0)
-    let g:memolist_prompt_tags = 1
+    " let g:memolist_prompt_tags = 1
     " categories prompt (default 0)
-    let g:memolist_prompt_categories = 1
+    " let g:memolist_prompt_categories = 1
     " open directory
     command MemoOpen silent !open ~/Dropbox/Notes/memolistvim
 endif
@@ -173,12 +171,6 @@ if neobundle#tap('vim-quickhl')
     xmap <Space>h <Plug>(quickhl-manual-this)
     nmap <Space>H <Plug>(quickhl-manual-reset)
     xmap <Space>H <Plug>(quickhl-manual-reset)
-endif
-if neobundle#tap('indentLine')
-    let g:indentLine_loaded = 1
-    " let g:indentLine_color_term = 239
-    " let g:indentLine_color_gui = '#A4E57E'
-    " let g:indentLine_char = '¦' "use ¦, ┆ or │
 endif
 if neobundle#tap('vim-session')
   let g:session_autosave = 'yes'
