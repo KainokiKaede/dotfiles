@@ -83,7 +83,7 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 "        \ 'script_type': 'doc'}
 NeoBundle 'mrtazz/simplenote.vim'
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'bruno-/netrw'
+" NeoBundle 'bruno-/netrw'
 NeoBundle 'chrisbra/Recover.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'Shougo/context_filetype.vim'
@@ -143,6 +143,7 @@ if neobundle#tap('jedi-vim')
     " let g:jedi#auto_vim_configuration = 0
     " Do not select the first candidate.
     let g:jedi#popup_select_first = 0
+    let g:jedi#completions_command = "<C-n>"
 endif
 if neobundle#tap('tagbar')
     let g:tagbar_type_typescript = {'ctagstype': 'typescript',

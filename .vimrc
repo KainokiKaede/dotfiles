@@ -25,6 +25,7 @@ set whichwrap=b,s,<,>,[,]  " Wrap <BS>, <Space>, <LEFT>, <RIGHT>
 set list                   " Show invisible characters.
 set listchars=tab:>.,trail:_,extends:>,precedes:<   " How to show invisibles.
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4  " Python-like indentation
+set undodir=~/vimfiles/undo  " Set directory for .un~ files.
 syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
@@ -84,10 +85,14 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up>   gk
+nnoremap gj j
+nnoremap gk k
 xnoremap j gj
 xnoremap k gk
 xnoremap <Down> gj
 xnoremap <Up>   gk
+xnoremap gj j
+xnoremap gk k
 
 " Press v twice to select to the end of the line.
 vnoremap v $h
@@ -100,6 +105,9 @@ nnoremap <S-Right> <C-w>><CR>
 nnoremap <S-Up>    <C-w>-<CR>
 nnoremap <S-Down>  <C-w>+<CR>
 
+" Do not use ZZ (save & quit) and ZQ (discard & quit).
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
 
 " Escape backslash and question marks in search mode.
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
@@ -250,6 +258,7 @@ command -range=% Count <line1>,<line2>s/./&/gn | noh
 
 " Set *.pde filetype to arduino. Use with arduino.vim (for syntax highlight).
 autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
+autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
 if has('mac')
     command Term silent !open -a Terminal.app .
@@ -474,4 +483,21 @@ vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
 let g:netrw_sort_by="time"
 let g:netrw_sort_direction="reverse"
 let g:netrw_sort_options="i"  " Ignore case
-let g:netrw_list_hide='.DS_Store,^\.git/$'  " Files and directories to hide
+let g:netrw_list_hide='.DS_Store,^\.git/$,\.sw,.*\.swp$'  " Files and directories to hide
+
+" Fast move to ^ and $  http://deris.hatenablog.jp/entry/2014/05/20/235807
+" nnoremap <Space>h  ^
+" nnoremap <Space>l  $
+
+" Always forward search by n, backword search by N. (By default it depends on / and ?)
+nnoremap <expr> n <SID>search_forward_p() ? 'nzv' : 'Nzv'
+nnoremap <expr> N <SID>search_forward_p() ? 'Nzv' : 'nzv'
+vnoremap <expr> n <SID>search_forward_p() ? 'nzv' : 'Nzv'
+vnoremap <expr> N <SID>search_forward_p() ? 'Nzv' : 'nzv'
+function! s:search_forward_p()
+  return exists('v:searchforward') ? v:searchforward : 1
+endfunction
+
+" Quick substitution.
+nnoremap gs  :<C-u>%s///g<Left><Left><Left>
+vnoremap gs  :s///g<Left><Left><Left>
