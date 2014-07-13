@@ -12,7 +12,7 @@ set scroll=8     " Lines to scroll by CTRL-D & CTRL-U
 set scrolloff=5  " Show 5 lines around the current line when scrolling.
 set ignorecase   " ignore case
 set smartcase    " but don't ignore if search string has uppercase letters
-set showmatch    " showmatch: Show the matching bracket for the last ')'?
+set noshowmatch  " showmatch: Blink the matching bracket when ) is entered.
 set wrap         " wrap by default
 set hidden       " use hidden buffers
 set confirm      " Confirm when overwriting, quitting w/o saving, and else.
