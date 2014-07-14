@@ -100,6 +100,10 @@ NeoBundle 'xolox/vim-session', {
             \ 'depends' : 'xolox/vim-misc',
           \ }
 NeoBundle 'LeafCage/yankround.vim'
+NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {
+      \ "autoload": {
+      \   "filetypes": ["tex", "plaintex", "context", "latex"]
+      \ }}
 
 filetype plugin indent on  " Required!
 
@@ -276,6 +280,12 @@ if neobundle#tap('yankround.vim')
     nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
     " Use CtrlP to show YankRound list:
     nnoremap <silent>g<C-p> :<C-u>CtrlPYankRound<CR>
+endif
+if neobundle#tap('LaTeX-Box')
+    " Use compl-omni by <C-n>
+    inoremap <C-n> <C-x><C-o>
+    " Close current environment by ]] (see :h latex-box-mappings-insertion)
+    imap <buffer> ]]     <Plug>LatexCloseCurEnv
 endif
 
 " Installation check.

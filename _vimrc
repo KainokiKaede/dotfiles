@@ -453,3 +453,6 @@ endfunction
 " Quick substitution.
 nnoremap gs  :<C-u>%s///g<Left><Left><Left>
 vnoremap gs  :s///g<Left><Left><Left>
+
+" Set default TeX filetype to latex: see :h ft-tex-plugin
+let g:tex_flavor = "latex"
