@@ -169,9 +169,11 @@ if neobundle#tap('ctrlp.vim')
     let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
 endif
 if neobundle#tap('jedi-vim')
-    " Configure manually
+    " Do not use auto-configuration. Do it by myself.
     " let g:jedi#auto_vim_configuration = 0
-    " Do not select the first candidate.
+    " The reason to deactivate jedi#auto_vim_configuration
+    " au FileType python setlocal completeopt-=preview
+    " Do not select the first candidate when using autocompletion.
     let g:jedi#popup_select_first = 0
     let g:jedi#completions_command = "<C-n>"
     " let g:jedi#show_call_signatures = 0  " avoid placeholder ≡jedi≡ to be left.
@@ -205,9 +207,59 @@ if neobundle#tap('vim-quickhl')
     xmap <Space>H <Plug>(quickhl-manual-reset)
 endif
 if neobundle#tap('vim-session')
-  let g:session_autosave = 'yes'
-  let g:session_autoload = 'no'
+    let g:session_autosave = 'yes'
+    let g:session_autoload = 'no'
 endif
+if neobundle#tap('vim-conque')
+    " Require: Conque   "gpi" to use IPython, "gpo" to use ipdb and debug.
+    let g:ConqueTerm_CWInsert = 1
+    autocmd FileType python nnoremap gpi :<C-u>execute 'ConqueTermSplit ipython '.expand('%:p')<CR>
+    autocmd FileType python nnoremap gpo :<C-u>execute 'ConqueTermSplit ipdb '.expand('%:p')<CR>
+endif
+if neobundle#tap('calendar-vim')
+    let g:calendar_diary="$HOME/Dropbox/Notes"
+    let g:calendar_monday = 1  " Week starts from monday.
+    " let g:calendar_weeknm = 1  " Show weeknumbers like 'WK01'
+    command -nargs=1 Calgrep execute "vimgrep ".<q-args>." ".g:calendar_diary."/**"
+endif
+if neobundle#tap('vim-indent-guides')
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_color_change_percent = 30
+    let g:indent_guides_guide_size = 1
+endif
+if neobundle#tap('vim-altercmd')
+    " Change :w to :up (do not overwrite when there is no change).
+    call altercmd#load()  " This line is necessary to use altercmd in _vimrc.
+    AlterCommand w up
+endif
+if neobundle#tap('Align')
+    " Use CJK letters in Align.vim. This may be slow. See :help align-xstrlen .
+    let g:Align_xstrlen=3
+endif
+if neobundle#tap('open-browser.vim')
+    " open-browser.vim
+    nmap <Leader>w <Plug>(openbrowser-open)
+    vmap <Leader>w <Plug>(openbrowser-open)
+endif
+if neobundle#tap('neocomplcache.vim')
+    nnoremap gne :NeoComplCacheEnable<CR>
+    nnoremap gnd :NeoComplCacheDisable<CR>
+    " let g:neocomplcache_enable_auto_select = 1 "select the first item by default.
+endif
+if neobundle#tap('neosnippet.vim')
+    " Snippets keymap
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    let g:neosnippet#snippets_directory = '~/vimfiles/after/snippets'
+endif
+if neobundle#tap('YankRing.vim')
+    function! YRRunAfterMaps()
+        " Change Y to y$. See: :h yankring-custom-maps
+        nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
+    endfunction
+endif
+
 
 " Installation check.
 NeoBundleCheck

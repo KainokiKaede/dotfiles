@@ -45,10 +45,6 @@ autocmd FileType python nnoremap gpy :<C-u>! python "%:p" -v<CR>
 "      To learn why 'execute' is used, see :help :bar
 "      _ is the blackhole register. See :help registers
 autocmd FileType python nnoremap gpu :<C-u>new \| setl buftype=nofile \| execute'r!python "#:p" -v' \| 1delete _<CR> G
-" Require: Conque   "gpi" to use IPython, "gpo" to use ipdb and debug.
-let g:ConqueTerm_CWInsert = 1
-autocmd FileType python nnoremap gpi :<C-u>execute 'ConqueTermSplit ipython '.expand('%:p')<CR>
-autocmd FileType python nnoremap gpo :<C-u>execute 'ConqueTermSplit ipdb '.expand('%:p')<CR>
 
 " Change colorcolumn not only but all after 81th character.
 " http://blog.remora.cx/2013/06/source-in-80-columns.html
@@ -58,15 +54,6 @@ autocmd FileType python nnoremap gpo :<C-u>execute 'ConqueTermSplit ipdb '.expan
 " See: :help errorformat-multi-line
 autocmd FileType python setl makeprg=python\ %
 autocmd FileType python setl efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-
-" Settings of jedi.vim:
-" Do not use auto-configuration. Do it by myself.
-" let g:jedi#auto_vim_configuration = 0
-" Do not select the first candidate when using autocompletion.
-let g:jedi#popup_select_first = 0
-" let g:jedi#auto_vim_configuration = 1
-" The reason to deactivate jedi#auto_vim_configuration
-" au FileType python setlocal completeopt-=preview
 """""""""""""""""""" Python Settings  END  """"""""""""""""""""""""
 
 " Bring searched word to center.
@@ -79,7 +66,7 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-" Move cursor by display lines. Use <C-n>, <C-p> to move by logical lines.
+" Move cursor by display lines. Use gj, gk to move by logical lines.
 " added xnoremap: http://www.slideshare.net/cohama/vim-script-vimrc-nagoyavim-1
 nnoremap j gj
 nnoremap k gk
@@ -97,6 +84,7 @@ xnoremap gk k
 " Press v twice to select to the end of the line.
 vnoremap v $h
 " Press Y to yank to the end of the line (see :help Y).
+" FYI: Need more settings when using YankRing. See :h yankring-custom-maps
 map Y y$
 
 " Shift + arrow to change window size.
@@ -156,38 +144,12 @@ if has('path_extra')
     set tags+=tags;
 endif
 
-" calendar.vim configuratons.
-let g:calendar_diary="$HOME/Dropbox/Notes"
-let g:calendar_monday = 1  " Week starts from monday.
-" let g:calendar_weeknm = 1  " Show weeknumbers like 'WK01'
-command -nargs=1 Calgrep execute "vimgrep ".<q-args>." ".g:calendar_diary."/**"
-
 " Recognize numbers as decimals. Increment: C-a / decrement: C-x
 set nrformats = ""
 
 " Use ; as :, : as ;.
 noremap ; :
 noremap : ;
-
-" indent-guides plugin
-" https://github.com/nathanaelkane/vim-indent-guides
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_color_change_percent = 30
-let g:indent_guides_guide_size = 1
-
-" showmarks.vim : show marks [a-zA-Z]
-let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-" neocomplcache
-" Snippets keymap
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-let g:neosnippet#snippets_directory = '~/vimfiles/after/snippets'
-nnoremap gne :NeoComplCacheEnable<CR>
-nnoremap gnd :NeoComplCacheDisable<CR>
-" let g:neocomplcache_enable_auto_select = 1 "select the first item by default.
-
 
 " Keep selecting after indentation
 vnoremap < <gv
@@ -207,10 +169,6 @@ map <silent> <C-k> 8k
 " Fix scroll size to 8 lines (see :help scroll).
 noremap <C-d> 8<C-d>
 noremap <C-u> 8<C-u>
-
-" open-browser.vim
-nmap <Leader>w <Plug>(openbrowser-open)
-vmap <Leader>w <Plug>(openbrowser-open)
 
 " Rename editing file by :Rename filename.ext
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))|w
@@ -254,9 +212,10 @@ endif
 " Counting letters: match everything, clear highlight. See: :h count-items
 " Why not use JpFormat? Because the map <S-j> conflicts with it's mapping.
 " -range=% sets default range to the whole document (not current line).
+" FYI: Consider using g<C-g> (see :h g_CTRL-G).
 command -range=% Count <line1>,<line2>s/./&/gn | noh
 
-" Set *.pde filetype to arduino. Use with arduino.vim (for syntax highlight).
+" Set filetypes to arduino. To syntax-highlight, use with arduino.vim.
 autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
@@ -312,10 +271,10 @@ inoremap [[ []<LEFT>
 inoremap (( ()<LEFT>
 " inoremap "" ""<LEFT>
 " inoremap '' ''<LEFT>
-vnoremap { "zdi^V{<C-R>z}<ESC>
-vnoremap [ "zdi^V[<C-R>z]<ESC>
-vnoremap ( "zdi^V(<C-R>z)<ESC>
-vnoremap " "zdi^V"<C-R>z^V"<ESC>
+vnoremap { "zdi{<C-R>z}<ESC>
+vnoremap [ "zdi[<C-R>z]<ESC>
+vnoremap ( "zdi(<C-R>z)<ESC>
+vnoremap " "zdi"<C-R>z"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
 
 " Move in insert mode
@@ -382,14 +341,12 @@ for line in vim.current.range:
 EOF
 endfunction
 
-" Use CJK letters in Align.vim. This may be slow. See :help align-xstrlen .
-let g:Align_xstrlen=3
-
 " Smart autocomplete in command mode (use UP & DOWN).
 cnoremap <C-p> <UP>
 cnoremap <C-n> <DOWN>
 
 " sudowrite (from "Practical Vim") TIP45
+command Sudow write !sudo tee % > /dev/null
 " Improved: http://www.commandlinefu.com/commands/view/1204/save-a-file-you-edited-in-vim-without-the-needed-permissions
 " Improved: http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
 " Problem: If write somehow fails, changes might be lost because of edit!.
@@ -448,11 +405,6 @@ command! ToUnix  setl fileencoding=utf8  fileformat=unix
 command! ToDosJa setl fileencoding=cp932 fileformat=dos
 command! ToMac   setl fileencoding=utf8  fileformat=mac
 command! ToUnixEucjp  setl fileencoding=eucjp  fileformat=unix
-
-" Change :w to :up (do not overwrite when there is no change).
-" Using tyru/vim-altercmd
-call altercmd#load()  " This line is necessary to use altercmd in _vimrc.
-AlterCommand w up
 
 " Automatically decide to split or vsplit from the aspect ratio of a window.
 " See: http://qiita.com/Linda_pp/items/392be95a195067d84fd8
