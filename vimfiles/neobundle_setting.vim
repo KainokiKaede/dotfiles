@@ -19,7 +19,7 @@ call neobundle#rc(expand('~/vimfiles/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Align'
-NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
+" NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
 NeoBundle 'Arduino-syntax-file'
 " NeoBundle 'ViewOutput'
 NeoBundle 'desert256.vim'
@@ -99,6 +99,7 @@ NeoBundleLazy 'kannokanno/previm', {
 NeoBundle 'xolox/vim-session', {
             \ 'depends' : 'xolox/vim-misc',
           \ }
+NeoBundle 'LeafCage/yankround.vim'
 
 filetype plugin indent on  " Required!
 
@@ -259,7 +260,23 @@ if neobundle#tap('YankRing.vim')
         nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
     endfunction
 endif
-
+if neobundle#tap('yankround.vim')
+    let g:yankround_dir = '~/vimfiles/yank'
+    nmap p <Plug>(yankround-p)
+    xmap p <Plug>(yankround-p)
+    nmap P <Plug>(yankround-P)
+    nmap gp <Plug>(yankround-gp)
+    xmap gp <Plug>(yankround-gp)
+    nmap gP <Plug>(yankround-gP)
+    nmap <C-n> <Plug>(yankround-next)
+    " To use with CtrlP:
+    " from: http://leafcage.hateblo.jp/entry/2013/10/31/yankroundvim
+    let g:ctrlp_map = ''
+    nnoremap <silent><SID>(ctrlp) :<C-u>CtrlPMRU<CR>
+    nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+    " Use CtrlP to show YankRound list:
+    nnoremap <silent>g<C-p> :<C-u>CtrlPYankRound<CR>
+endif
 
 " Installation check.
 NeoBundleCheck
