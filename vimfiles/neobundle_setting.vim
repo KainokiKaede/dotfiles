@@ -225,7 +225,8 @@ if neobundle#tap('calendar-vim')
     let g:calendar_diary="$HOME/Dropbox/Notes"
     let g:calendar_monday = 1  " Week starts from monday.
     " let g:calendar_weeknm = 1  " Show weeknumbers like 'WK01'
-    command -nargs=1 Calgrep execute "vimgrep ".<q-args>." ".g:calendar_diary."/**"
+    command -nargs=1 Calgrep execute "vimgrep /".<q-args>."/j ".g:calendar_diary."/**" | call setqflist(reverse(getqflist())) | crewind
+    command -nargs=1 Calgreptag execute "vimgrep /@@@.*".<q-args>."/j ".g:calendar_diary."/**" | call setqflist(reverse(getqflist())) | crewind
 endif
 if neobundle#tap('vim-indent-guides')
     let g:indent_guides_enable_on_vim_startup = 1

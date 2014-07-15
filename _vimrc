@@ -452,7 +452,9 @@ vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
 let g:netrw_sort_by="time"
 let g:netrw_sort_direction="reverse"
 let g:netrw_sort_options="i"  " Ignore case
-let g:netrw_list_hide='.DS_Store,^\.git/$,\.sw,.*\.swp$'  " Files and directories to hide
+let g:netrw_list_hide='.DS_Store,^\.git/$,\.sw,.*\.swp$,\./,\.\./'  " Files and directories to hide
+" Show help by h
+autocmd FileType netrw map <buffer> h <F1>
 
 " Fast move to ^ and $  http://deris.hatenablog.jp/entry/2014/05/20/235807
 " nnoremap <Space>h  ^
