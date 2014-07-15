@@ -219,8 +219,25 @@ command -range=% Count <line1>,<line2>s/./&/gn | noh
 autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 
+function! OpenInFinder()
+    " Finder does not receive filepath, only directorypath.
+    if isdirectory(expand('%')) == 1
+        !open -a Finder.app %
+    else
+        !open -a Finder.app %:h
+    endif
+endfunction
+function! OpenInTerm()
+    " Terminal does not receive filepath, only directorypath.
+    if isdirectory(expand('%')) == 1
+        !open -a Terminal.app %
+    else
+        !open -a Terminal.app %:h
+    endif
+endfunction
 if has('mac')
-    command Term silent !open -a Terminal.app .
+    command Term silent call OpenInTerm()
+    command Open silent call OpenInFinder()
 endif
 
 " statusline: from http://d.hatena.ne.jp/kaniyon/20110219/1298112450
