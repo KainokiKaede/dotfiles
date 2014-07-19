@@ -10,7 +10,7 @@
 !/.gvimrc
 !/vimfiles/
 !/vimfiles/neobundle_setting.vim
-
+!/latexmkrc
 
 # Furthermore, strongly EXCLUDE the following files.
 /.ssh/
