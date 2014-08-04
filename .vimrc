@@ -267,6 +267,9 @@ imap <silent> <C-D><C-T> <C-R>=strftime("%FT%T%z")<CR>
 " Set *.md filetype to markdown. Original: modula2
 autocmd! BufNewFile,BufRead *.md setlocal ft=markdown
 
+" Enter comment easily in markdown.
+autocmd filetype markdown inoremap <! <!--<SPACE><SPACE>--><LEFT><LEFT><LEFT><LEFT>
+
 " Make temporary file.
 " Original: http://tekkoc.tumblr.com/post/41943190314/vim
 command! -nargs=? -complete=filetype Tmp call OpenTmpFile(<q-args>)

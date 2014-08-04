@@ -74,7 +74,8 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \   "filetypes": ["python", "python3", "djangohtml"]
       \ }}
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'taichouchou2/html5.vim'
+" NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'othree/html5.vim'
 NeoBundle 'tyru/vim-altercmd'  " This is a fork of: 'kana/vim-altercmd'
 NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
        \ 'name': 'markdown-cheat.txt',
