@@ -20,7 +20,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Align'
 " NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
-NeoBundle 'Arduino-syntax-file'
+NeoBundle 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
+" NeoBundle 'Arduino-syntax-file'  -> vim-polyglot
 " NeoBundle 'ViewOutput'
 NeoBundle 'desert256.vim'
 NeoBundle 'tyru/open-browser.vim'
@@ -75,7 +76,7 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
       \ }}
 NeoBundle 'hail2u/vim-css3-syntax'
 " NeoBundle 'taichouchou2/html5.vim'
-NeoBundle 'othree/html5.vim'
+" NeoBundle 'othree/html5.vim'  -> vim-polyglot
 NeoBundle 'tyru/vim-altercmd'  " This is a fork of: 'kana/vim-altercmd'
 NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
        \ 'name': 'markdown-cheat.txt',
@@ -105,6 +106,11 @@ NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {
       \ "autoload": {
       \   "filetypes": ["tex", "plaintex", "context", "latex"]
       \ }}
+" NeoBundle 'vim-scripts/grep.vim'
+NeoBundle 'vim-scripts/CSApprox'
+" NeoBundle 'SirVer/ultisnips'  # Needs has(python). If use, read quick start.
+NeoBundle 'amirh/HTML-AutoCloseTag'
+NeoBundle 'gorodinskiy/vim-coloresque'
 
 filetype plugin indent on  " Required!
 
