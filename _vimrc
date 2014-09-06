@@ -478,3 +478,6 @@ vnoremap gs  :s///g<Left><Left><Left>
 
 " Set default TeX filetype to latex: see :h ft-tex-plugin
 let g:tex_flavor = "latex"
+
+" Search selected string. From: http://memo.officebrook.net/20091022.html
+vnoremap * "zy:let @/ = @z<CR>n
