@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " Use NeoBundle
 source ~/vimfiles/neobundle_setting.vim
 
@@ -30,30 +32,34 @@ syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
 
+augroup vimrc
+  autocmd!   " initialize augroup 'vimrc'.
+augroup END
+
 """""""""""""""""""" Python Settings START """"""""""""""""""""""""
 " Indentation.
 " No need to set autoindent nor smartindent, because cindent is set above.
 filetype plugin on
-autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd vimrc FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " type "gpy" to execute python on vim.
-autocmd FileType python nnoremap gpy :<C-u>! python "%:p" -v<CR>
+autocmd vimrc FileType python nnoremap gpy :<C-u>! python "%:p" -v<CR>
 " Type "gpu" to execute python and show the output in scratch buffer.
 " FYI: In scratch.vim, these 4 options are set: setl buftype=nofile bufhidden=hide noswapfile buflisted
 "      To make the buffer optional to save, buftype=nofile is the only necessary option to set.
 "      To know better, read the code: https://github.com/vim-scripts/scratch.vim/
 "      To learn why 'execute' is used, see :help :bar
 "      _ is the blackhole register. See :help registers
-autocmd FileType python nnoremap gpu :<C-u>new \| setl buftype=nofile \| execute'r!python "#:p" -v' \| 1delete _<CR> G
+autocmd vimrc FileType python nnoremap gpu :<C-u>new \| setl buftype=nofile \| execute'r!python "#:p" -v' \| 1delete _<CR> G
 
 " Change colorcolumn not only but all after 81th character.
 " http://blog.remora.cx/2013/06/source-in-80-columns.html
-" autocmd FileType python execute "setl colorcolumn=" . join(range(81, 9999), ',')
+" autocmd vimrc FileType python execute "setl colorcolumn=" . join(range(81, 9999), ',')
 
 " Defining :make and errorformat.
 " See: :help errorformat-multi-line
-autocmd FileType python setl makeprg=python\ %
-autocmd FileType python setl efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+autocmd vimrc FileType python setl makeprg=python\ %
+autocmd vimrc FileType python setl efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
 """""""""""""""""""" Python Settings  END  """"""""""""""""""""""""
 
 " Bring searched word to center.
@@ -216,8 +222,8 @@ endif
 command -range=% Count <line1>,<line2>s/./&/gn | noh
 
 " Set filetypes to arduino. To syntax-highlight, use with arduino.vim.
-autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
-autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
+autocmd! vimrc BufNewFile,BufRead *.pde setlocal ft=arduino
+autocmd! vimrc BufNewFile,BufRead *.ino setlocal ft=arduino
 
 function! OpenInFinder()
     " Finder does not receive filepath, only directorypath.
@@ -265,10 +271,12 @@ imap <silent> <C-T><C-T> <C-R>=strftime("%R")<CR>
 imap <silent> <C-D><C-T> <C-R>=strftime("%FT%T%z")<CR>
 
 " Set *.md filetype to markdown. Original: modula2
-autocmd! BufNewFile,BufRead *.md setlocal ft=markdown
+autocmd! vimrc BufNewFile,BufRead *.md setlocal ft=markdown
 
 " Enter comment easily in markdown.
-autocmd filetype markdown inoremap <! <!--<SPACE><SPACE>--><LEFT><LEFT><LEFT><LEFT>
+" autocmd vimrc filetype markdown inoremap <! <!--<SPACE><SPACE>--><LEFT><LEFT><LEFT><LEFT>
+" This functionality bothers entering URL quickly, where I type < <C-V> > .
+" Think for another mapping.
 
 " Make temporary file.
 " Original: http://tekkoc.tumblr.com/post/41943190314/vim
@@ -338,10 +346,10 @@ nnoremap [Mark]p [`
 nnoremap [Mark]l :<C-u>marks<CR>
 
 " " Move to the last position.
-" autocmd MyAutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal g`"' | endif
+" autocmd vimrc BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal g`"' | endif
 "
 " " Initialize marks when buffer is read.
-" autocmd MyAutoCmd BufReadPost * delmarks!
+" autocmd vimrc BufReadPost * delmarks!
 
 " }}}
 
@@ -442,7 +450,7 @@ endfunction
 nnoremap <silent><C-w><Space> :<C-u>SmartSplit<CR>
 
 " Convert Markdown to TeX (using Pandoc).
-autocmd FileType markdown nnoremap gpy :<C-u>! pandoc -i "%:p" -o "%:p:r.tex"<CR>
+autocmd vimrc FileType markdown nnoremap gpy :<C-u>! pandoc -i "%:p" -o "%:p:r.tex"<CR>
 
 " Surround URL with Markdown style. Inspired from:
 " http://stackoverflow.com/questions/9985360/vim-plugin-for-adding-external-links
@@ -457,7 +465,7 @@ let g:netrw_sort_direction="reverse"
 let g:netrw_sort_options="i"  " Ignore case
 let g:netrw_list_hide='.DS_Store,^\.git/$,\.sw,.*\.swp$,\./,\.\./'  " Files and directories to hide
 " Show help by h
-autocmd FileType netrw map <buffer> h <F1>
+autocmd vimrc FileType netrw map <buffer> h <F1>
 
 " Fast move to ^ and $  http://deris.hatenablog.jp/entry/2014/05/20/235807
 " nnoremap <Space>h  ^
@@ -481,3 +489,20 @@ let g:tex_flavor = "latex"
 
 " Search selected string. From: http://memo.officebrook.net/20091022.html
 vnoremap * "zy:let @/ = @z<CR>n
+
+" Use Meta (Alt) key on Mac
+set macmeta
+" Resize window by Alt key: http://qiita.com/0829/items/261225a51439776b36bf
+nnoremap <M-+> <C-w>-
+nnoremap <M--> <C-w>+
+nnoremap <M->> <C-w>>
+nnoremap <M-<> <C-w><
+" Reset: option + q
+nnoremap <M-q> <C-w>=
+" Maximize: option + a
+nnoremap <M-a> <C-w>_<C-w><Bar>
+" Move:
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l

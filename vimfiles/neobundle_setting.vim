@@ -18,7 +18,8 @@ call neobundle#rc(expand('~/vimfiles/bundle/'))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Align'
+" NeoBundle 'Align'
+NeoBundle 'junegunn/vim-easy-align'
 " NeoBundle 'YankRing.vim'  " :YRShow<CR> to list yanked registers.
 NeoBundle 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
 " NeoBundle 'Arduino-syntax-file'  -> vim-polyglot
@@ -111,6 +112,7 @@ NeoBundle 'vim-scripts/CSApprox'
 " NeoBundle 'SirVer/ultisnips'  # Needs has(python). If use, read quick start.
 NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'gorodinskiy/vim-coloresque'
+NeoBundle 'kana/vim-smartword'
 
 filetype plugin indent on  " Required!
 
@@ -294,6 +296,20 @@ if neobundle#tap('LaTeX-Box')
     inoremap <C-n> <C-x><C-o>
     " Close current environment by ]] (see :h latex-box-mappings-insertion)
     imap <buffer> ]]     <Plug>LatexCloseCurEnv
+endif
+if neobundle#tap('vim-smartword')
+    nmap w   <Plug>(smartword-w)
+    nmap b   <Plug>(smartword-b)
+    nmap e   <Plug>(smartword-e)
+endif
+if neobundle#tap('vim-easy-align')
+    " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+    vmap <Enter> <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+    nmap <Leader>a <Plug>(EasyAlign)
+endif
+if neobundle#tap('vim-commentary')
+    autocmd FileType markdown setl commentstring=<!--%s-->
 endif
 
 " Installation check.
