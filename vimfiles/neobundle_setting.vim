@@ -114,6 +114,8 @@ NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'kana/vim-smartword'
 
+call neobundle#end()
+
 
 " Plugin settings:
 
@@ -313,8 +315,6 @@ endif
 if neobundle#tap('vim-commentary')
     autocmd FileType markdown setl commentstring=<!--%s-->
 endif
-
-call neobundle#end()
 
 filetype plugin indent on  " Required!
 
