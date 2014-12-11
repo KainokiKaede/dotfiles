@@ -109,10 +109,12 @@ NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {
       \ }}
 " NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'vim-scripts/CSApprox'
-" NeoBundle 'SirVer/ultisnips'  # Needs has(python). If use, read quick start.
+" NeoBundle 'SirVer/ultisnips'  " Needs has(python). If use, read quick start.
 NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'kana/vim-smartword'
+" NeoBundle 'cohama/lexima.vim'  " Auto close parenthesis
+NeoBundle 'haya14busa/incsearch.vim'
 
 call neobundle#end()
 
@@ -314,6 +316,10 @@ if neobundle#tap('vim-easy-align')
 endif
 if neobundle#tap('vim-commentary')
     autocmd FileType markdown setl commentstring=<!--%s-->
+endif
+if neobundle#tap('incsearch.vim')
+    map /  <Plug>(incsearch-forward)
+    map ?  <Plug>(incsearch-backward)
 endif
 
 filetype plugin indent on  " Required!
