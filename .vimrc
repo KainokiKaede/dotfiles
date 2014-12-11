@@ -32,8 +32,9 @@ syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
 
+" initialize augroup 'vimrc'.
 augroup vimrc
-  autocmd!   " initialize augroup 'vimrc'.
+  autocmd!
 augroup END
 
 """""""""""""""""""" Python Settings START """"""""""""""""""""""""
@@ -491,7 +492,9 @@ let g:tex_flavor = "latex"
 vnoremap * "zy:let @/ = @z<CR>n
 
 " Use Meta (Alt) key on Mac
-set macmeta
+if has('mac')
+    set macmeta
+endif
 " Resize window by Alt key: http://qiita.com/0829/items/261225a51439776b36bf
 nnoremap <M-+> <C-w>-
 nnoremap <M--> <C-w>+

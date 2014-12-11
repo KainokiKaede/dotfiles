@@ -13,7 +13,7 @@ if has('vim_starting')
     set runtimepath+=~/vimfiles/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/vimfiles/bundle/'))
+call neobundle#begin(expand('~/vimfiles/bundle/'))
 
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -114,10 +114,12 @@ NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'kana/vim-smartword'
 
-filetype plugin indent on  " Required!
 
 " Plugin settings:
 
+if neobundle#tap('vim-polyglot')
+    let g:csv_no_conceal = 1
+endif
 if neobundle#tap('clever-f.vim')
     let g:clever_f_ignore_case=1  " Ignore case
     let g:clever_f_smart_case=1   " Do not ignore when Upper case is searched.
@@ -311,6 +313,10 @@ endif
 if neobundle#tap('vim-commentary')
     autocmd FileType markdown setl commentstring=<!--%s-->
 endif
+
+call neobundle#end()
+
+filetype plugin indent on  " Required!
 
 " Installation check.
 NeoBundleCheck
