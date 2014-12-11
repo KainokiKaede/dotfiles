@@ -1,0 +1,12 @@
+" Use ; as :, : as ;.
+noremap ; :
+noremap : ;
+
+" Do not show the status line.
+set laststatus=0
+
+" Quick moves
+map <C-h> 8h
+map <C-l> 8l
+map <C-j> 8j
+map <C-k> 8k

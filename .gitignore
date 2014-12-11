@@ -11,6 +11,7 @@
 !/vimfiles/
 !/vimfiles/neobundle_setting.vim
 !/latexmkrc
+!/xvimrc
 
 # Furthermore, strongly EXCLUDE the following files.
 /.ssh/
