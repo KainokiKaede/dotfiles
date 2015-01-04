@@ -115,6 +115,17 @@ NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'kana/vim-smartword'
 " NeoBundle 'cohama/lexima.vim'  " Auto close parenthesis
 NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'neilagabriel/vim-geeknote'
+" NeoBundleLazy 'rbtnn/rabbit-ui.vim', {
+"       \ "autoload": {
+"       \   "filetypes": ["csv", "tsv"]
+"       \ }}
+" NeoBundleLazy 'rbtnn/rabbit-ui-collection.vim', {
+"       \ "autoload": {
+"       \   "filetypes": ["csv", "tsv"]
+"       \ }}
+NeoBundle 'vim-jp/autofmt'  " for Japanese hyphenation
+
 
 call neobundle#end()
 
@@ -123,6 +134,7 @@ call neobundle#end()
 
 if neobundle#tap('vim-polyglot')
     let g:csv_no_conceal = 1
+    autocmd BufNewFile,BufReadPre *.tsv let g:csv_delim='	'
 endif
 if neobundle#tap('clever-f.vim')
     let g:clever_f_ignore_case=1  " Ignore case
@@ -320,6 +332,10 @@ endif
 if neobundle#tap('incsearch.vim')
     map /  <Plug>(incsearch-forward)
     map ?  <Plug>(incsearch-backward)
+endif
+if neobundle#tap('vim-geeknote')
+    let g:GeeknoteMaxExplorerWidth=60
+    autocmd FileType geeknote setlocal nonumber
 endif
 
 filetype plugin indent on  " Required!

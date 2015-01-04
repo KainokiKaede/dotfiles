@@ -1,3 +1,4 @@
+set encoding=utf-8  " Character encoding used inside Vim.
 scriptencoding utf-8
 
 " Use NeoBundle
@@ -15,10 +16,13 @@ set scrolloff=5  " Show 5 lines around the current line when scrolling.
 set ignorecase   " ignore case
 set smartcase    " but don't ignore if search string has uppercase letters
 set noshowmatch  " showmatch: Blink the matching bracket when ) is entered.
+set matchtime=1  " Blink the matching bracket for 0.x seconds (if showmatch).
 set wrap         " wrap by default
 set hidden       " use hidden buffers
 set confirm      " Confirm when overwriting, quitting w/o saving, and else.
 set nobackup     " Do not create backup file.
+set pumheight=15           " Maximum pop-up-menu height.
+set display=lastline       " Show long long line in display.
 set backupcopy=yes         " Making a copy and overwriting the original file.
 set virtualedit+=block     " select void in rectangle selection
 set formatoptions=q        " Disable auto-linebreak
@@ -125,7 +129,6 @@ if !(has('gui_macvim') && has('kaoriya'))
     " Why no euc-jp? Because when I set euc-jp last time, something was wrong.
     set fileencodings=utf-8,cp932
 endif
-set encoding=utf-8  " Character encoding used inside Vim.
 set fileformats=unix,dos,mac  " Default newline char: unix <NL>
 
 
@@ -181,7 +184,7 @@ noremap <C-u> 8<C-u>
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))|w
 
 " autodate.vim: change format to ISO 8601 style.
-let autodate_format = "%F"
+let autodate_format = '%F'
 
 " Play sound on typing (Mac only: change 'afplay' to a cmd your OS supports)
 " Also, change '`' to <CR> (easier to type numbers)
@@ -191,18 +194,18 @@ let g:numsound_on = 0
 function! NumSoundToggle()
     if g:numsound_on
         for e in range(0, 9)
-            execute "iunmap ".e
+            execute 'iunmap '.e
         endfor
         iunmap `
         let g:numsound_on = 0
-        echo "NumSound is off."
+        echo 'NumSound is off.'
     else
         for e in range(0, 9)
-            execute "inoremap ".e." <C-o>:silent !afplay ~/Dropbox/dotfiles/vimfiles/numsound/num00".e."_01.wav &<CR>".e
+            execute 'inoremap '.e.' <C-o>:silent !afplay ~/Dropbox/dotfiles/vimfiles/numsound/num00'.e.'_01.wav &<CR>'.e
         endfor
         inoremap ` <CR>
         let g:numsound_on = 1
-        echo "NumSound is on."
+        echo 'NumSound is on.'
     endif
 endfunction
 
@@ -253,7 +256,7 @@ set statusline=%y%{GetStatusEx()}%<%F%m%r%=[%l/%L(%p%%)]
 function! GetStatusEx()
     let str = ''
     let str = str . '' . &fileformat . ']'
-    if has('multi_byte') && &fileencoding != ''
+    if has('multi_byte') && &fileencoding !=# ''
         let str = '[' . &fileencoding . ':' . str
     else
         let str = '[?fenc:' . str
@@ -283,7 +286,7 @@ autocmd! vimrc BufNewFile,BufRead *.md setlocal ft=markdown
 " Original: http://tekkoc.tumblr.com/post/41943190314/vim
 command! -nargs=? -complete=filetype Tmp call OpenTmpFile(<q-args>)
 function! OpenTmpFile(...)
-    if a:1 != ""
+    if a:1 !=# ""
         execute 'edit ~/vimfiles/tmp/tmp.'.a:1
     else
         execute 'edit ~/vimfiles/tmp/tmp.txt'
@@ -400,7 +403,7 @@ function! SelectInteractive(question, candidates) " {{{
     let l:select = 0
     while index(a:candidates, l:select, 0, 1) == -1
       let l:select = input(a:question . ' [' . join(a:candidates, '/') . '] ')
-      if l:select == ''
+      if l:select ==# ''
         let l:select = a:candidates[0]
       endif
     endwhile
@@ -412,10 +415,10 @@ endfunction " }}}
 function! BufferWipeoutInteractive() " {{{
   if &modified == 1
     let l:selected = SelectInteractive('Buffer is unsaved. What should I do?', ['n', 'w', 'q'])
-    if l:selected == 'w'
+    if l:selected ==# 'w'
       write
       bwipeout
-    elseif l:selected == 'q'
+    elseif l:selected ==# 'q'
       bwipeout!
     endif
   else
@@ -461,9 +464,9 @@ nnoremap <Leader>4 "uciw[<C-r>u](<Esc>"*pa)<Esc>
 vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
 
 " netrw settings:
-let g:netrw_sort_by="time"
-let g:netrw_sort_direction="reverse"
-let g:netrw_sort_options="i"  " Ignore case
+let g:netrw_sort_by='time'
+let g:netrw_sort_direction='reverse'
+let g:netrw_sort_options='i'  " Ignore case
 let g:netrw_list_hide='.DS_Store,^\.git/$,\.sw,.*\.swp$,\./,\.\./'  " Files and directories to hide
 " Show help by h
 autocmd vimrc FileType netrw map <buffer> h <F1>
@@ -486,7 +489,7 @@ nnoremap gs  :<C-u>%s///g<Left><Left><Left>
 vnoremap gs  :s///g<Left><Left><Left>
 
 " Set default TeX filetype to latex: see :h ft-tex-plugin
-let g:tex_flavor = "latex"
+let g:tex_flavor = 'latex'
 
 " Search selected string. From: http://memo.officebrook.net/20091022.html
 vnoremap * "zy:let @/ = @z<CR>n
@@ -509,3 +512,26 @@ nnoremap <M-h> <C-w>h
 nnoremap <M-j> <C-w>j
 nnoremap <M-k> <C-w>k
 nnoremap <M-l> <C-w>l
+
+" Create Markdown Hyperlink Automatically
+" Requires mattn/webapi-vim (or vital.vim), tpope/vim-surround,
+" kana/vim-textobj-user, mattn/vim-textobj-url
+command MDURL call CreateMarkdownHyperLink()
+command MDURLTitle call CreateMarkdownHyperLinkWithTitle()
+function! GetWebPageTitle(url)
+    let res = webapi#http#get(a:url)
+    let dom = webapi#html#parse(res.content)
+    return dom.childNode('head').childNode('title').value()
+endfunction
+function! CreateMarkdownHyperLinkWithTitle()
+    let areg = @a
+    execute 'normal "ayiu'
+    let url = @a
+    let title = GetWebPageTitle(url)
+    execute 'normal viuS)i['.title.']'
+    let @a = areg
+endfunction
+function! CreateMarkdownHyperLink()
+    execute 'normal viuS)i[]'
+    startinsert
+endfunction
