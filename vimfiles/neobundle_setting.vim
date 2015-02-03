@@ -39,7 +39,8 @@ NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'cocopon/colorswatch.vim'
 " NeoBundle 'add20/vim-conque'
 " NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
+NeoBundle 'kaneshin/ctrlp-memolist'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-user'
@@ -135,6 +136,8 @@ call neobundle#end()
 if neobundle#tap('vim-polyglot')
     let g:csv_no_conceal = 1
     autocmd BufNewFile,BufReadPre *.tsv let g:csv_delim='	'
+    " Markdown
+    " let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml', 'python', 'diff', 'cpp']
 endif
 if neobundle#tap('clever-f.vim')
     let g:clever_f_ignore_case=1  " Ignore case
@@ -198,7 +201,14 @@ if neobundle#tap('ctrlp.vim')
     " let g:ctrlp_use_migemo = 1  " cmigemo is required.
     let g:ctrlp_clear_cache_on_exit = 0   " Do not clear cache on exit.
     let g:ctrlp_cmd = 'CtrlPMRU'
-    let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
+    " let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
+    command BufferCtrlP :CtrlPBuffer
+endif
+if neobundle#tap('ctrlp-memolist')
+    let g:ctrlp_extensions = [
+      \'memolist',
+      \]
+    nnoremap <Space>cm :<c-u>CtrlPMemolist<cr>
 endif
 if neobundle#tap('jedi-vim')
     " Do not use auto-configuration. Do it by myself.
@@ -231,6 +241,8 @@ if neobundle#tap('memolist.vim')
     " let g:memolist_prompt_categories = 1
     " open directory
     command MemoOpen silent !open ~/Dropbox/Notes/memolistvim
+    " command MemList execute "CtrlP" g:memolist_path
+    command MemList CtrlPMemolist
 endif
 if neobundle#tap('vim-quickhl')
     nmap <Space>h <Plug>(quickhl-manual-this)
@@ -337,6 +349,13 @@ if neobundle#tap('vim-geeknote')
     let g:GeeknoteMaxExplorerWidth=60
     autocmd FileType geeknote setlocal nonumber
 endif
+if neobundle#tap('previm')
+    " Do not use default css (default css is similar to GitHub style):
+    " let g:previm_disable_default_css = 1
+    " Use user original css:
+    " let g:previm_custom_css_path = '/Users/kanno/tmp/some.css'
+endif
+
 
 filetype plugin indent on  " Required!
 

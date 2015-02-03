@@ -535,3 +535,6 @@ function! CreateMarkdownHyperLink()
     execute 'normal viuS)i[]'
     startinsert
 endfunction
+
+" Fix line autobreaking in Kaoriya Vim.
+autocmd vimrc FileType markdown setlocal textwidth=0
