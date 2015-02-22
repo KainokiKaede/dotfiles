@@ -126,6 +126,7 @@ NeoBundle 'neilagabriel/vim-geeknote'
 "       \   "filetypes": ["csv", "tsv"]
 "       \ }}
 NeoBundle 'vim-jp/autofmt'  " for Japanese hyphenation
+NeoBundle 'bronson/vim-trailing-whitespace'
 
 
 call neobundle#end()
@@ -355,7 +356,9 @@ if neobundle#tap('previm')
     " Use user original css:
     " let g:previm_custom_css_path = '/Users/kanno/tmp/some.css'
 endif
-
+if neobundle#tap('vim-trailing-whitespace')
+  let g:extra_whitespace_ignored_filetypes = ['calendar', 'unite']
+endif
 
 filetype plugin indent on  " Required!
 
