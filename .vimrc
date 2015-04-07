@@ -1,8 +1,10 @@
 set encoding=utf-8  " Character encoding used inside Vim.
 scriptencoding utf-8
 
-" Use NeoBundle
-source ~/vimfiles/neobundle_setting.vim
+" Use NeoBundle if available.
+if filereadable( $HOME . "/vimfiles/neobundle_setting.vim" )
+    source ~/vimfiles/neobundle_setting.vim
+endif
 
 set backspace=indent,eol,start  " Use backspace on everything in insert mode
 set history=50   " keep 50 lines of command line history
@@ -31,7 +33,9 @@ set whichwrap=b,s,<,>,[,]  " Wrap <BS>, <Space>, <LEFT>, <RIGHT>
 set list                   " Show invisible characters.
 set listchars=tab:>.,trail:_,extends:>,precedes:<   " How to show invisibles.
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4  " Python-like indentation
-set undodir=~/vimfiles/undo  " Set directory for .un~ files.
+if v:version >= 704
+    set undodir=~/vimfiles/undo  " Set directory for .un~ files.
+endif
 syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
@@ -284,7 +288,11 @@ autocmd! vimrc BufNewFile,BufRead *.md setlocal ft=markdown
 
 " Make temporary file.
 " Original: http://tekkoc.tumblr.com/post/41943190314/vim
-command! -nargs=? -complete=filetype Tmp call OpenTmpFile(<q-args>)
+if v:version >= 703
+    command! -nargs=? -complete=filetype Tmp call OpenTmpFile(<q-args>)
+else
+    command! -nargs=? Tmp call OpenTmpFile(<q-args>)
+endif
 function! OpenTmpFile(...)
     if a:1 !=# ""
         execute 'edit ~/vimfiles/tmp/tmp.'.a:1

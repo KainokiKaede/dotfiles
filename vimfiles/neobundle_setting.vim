@@ -86,7 +86,9 @@ NeoBundle 'gist:KainokiKaede/235227ba94c0d2401230', {
 " NeoBundle 'gist:hail2u/747628', {
 "        \ 'name': 'markdown-cheat-sheet.jax',
 "        \ 'script_type': 'doc'}
-NeoBundle 'mrtazz/simplenote.vim'
+if has('mac')
+    NeoBundle 'mrtazz/simplenote.vim'
+endif
 NeoBundle 'glidenote/memolist.vim'
 " NeoBundle 'bruno-/netrw'
 NeoBundle 'chrisbra/Recover.vim'
@@ -103,20 +105,28 @@ NeoBundleLazy 'kannokanno/previm', {
 NeoBundle 'xolox/vim-session', {
             \ 'depends' : 'xolox/vim-misc',
           \ }
-NeoBundle 'LeafCage/yankround.vim'
+if v:version >= 703
+    NeoBundle 'LeafCage/yankround.vim'
+endif
 NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {
       \ "autoload": {
       \   "filetypes": ["tex", "plaintex", "context", "latex"]
       \ }}
 " NeoBundle 'vim-scripts/grep.vim'
-NeoBundle 'vim-scripts/CSApprox'
+if v:version >= 703
+    NeoBundle 'vim-scripts/CSApprox'
+endif
 " NeoBundle 'SirVer/ultisnips'  " Needs has(python). If use, read quick start.
 NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'gorodinskiy/vim-coloresque'
 NeoBundle 'kana/vim-smartword'
 " NeoBundle 'cohama/lexima.vim'  " Auto close parenthesis
-NeoBundle 'haya14busa/incsearch.vim'
-NeoBundle 'neilagabriel/vim-geeknote'
+if v:version >= 704
+    NeoBundle 'haya14busa/incsearch.vim'
+endif
+if has('mac')
+    NeoBundle 'neilagabriel/vim-geeknote'
+endif
 " NeoBundleLazy 'rbtnn/rabbit-ui.vim', {
 "       \ "autoload": {
 "       \   "filetypes": ["csv", "tsv"]
