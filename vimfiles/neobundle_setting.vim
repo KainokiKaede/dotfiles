@@ -350,7 +350,9 @@ if neobundle#tap('vim-easy-align')
     nmap <Leader>a <Plug>(EasyAlign)
 endif
 if neobundle#tap('vim-commentary')
-    autocmd FileType markdown setl commentstring=<!--%s-->
+    " Setting markdown commentstring here will be overwritten by polyglot,
+    " so set it in .vimrc .
+    " autocmd FileType markdown setl commentstring=<!--%s-->
 endif
 if neobundle#tap('incsearch.vim')
     map /  <Plug>(incsearch-forward)

@@ -30,6 +30,7 @@ set virtualedit+=block     " select void in rectangle selection
 set formatoptions=q        " Disable auto-linebreak
 set textwidth=0            " Disable autoreturn (PEP8 requires textwidth=79)
 set whichwrap=b,s,<,>,[,]  " Wrap <BS>, <Space>, <LEFT>, <RIGHT>
+set spelllang=en,cjk       " Only check English spells when ':set spell'
 set list                   " Show invisible characters.
 set listchars=tab:>.,trail:_,extends:>,precedes:<   " How to show invisibles.
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4  " Python-like indentation
@@ -546,3 +547,6 @@ endfunction
 
 " Fix line autobreaking in Kaoriya Vim.
 autocmd vimrc FileType markdown setlocal textwidth=0
+
+" Set markdown commentstring (Is set by vim-markdown, but not what I like).
+autocmd FileType markdown setl commentstring=<!--%s-->
