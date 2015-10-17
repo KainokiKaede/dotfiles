@@ -40,6 +40,7 @@ endif
 syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
+let mapleader = "\<Space>"  " Space as leader: http://postd.cc/how-to-boost-your-vim-productivity/
 
 " initialize augroup 'vimrc'.
 augroup vimrc
@@ -184,6 +185,11 @@ map <silent> <C-k> 8k
 " Fix scroll size to 8 lines (see :help scroll).
 noremap <C-d> 8<C-d>
 noremap <C-u> 8<C-u>
+
+" Paste multiple times by just pressing pppppp...
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
 
 " Rename editing file by :Rename filename.ext
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))|w
@@ -471,6 +477,10 @@ nnoremap <Leader>3 "uciw[<C-r>u]()<Esc>
 vnoremap <Leader>3 "uc[<C-r>u]()<Esc>
 nnoremap <Leader>4 "uciw[<C-r>u](<Esc>"*pa)<Esc>
 vnoremap <Leader>4 "uc[<C-r>u](<Esc>"*pa)<Esc>
+
+" Several <Leader> associated mappings.
+" Save by <Leader>w
+nnoremap <Leader>w :up<CR>
 
 " netrw settings:
 let g:netrw_sort_by='time'

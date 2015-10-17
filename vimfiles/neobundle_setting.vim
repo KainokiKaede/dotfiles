@@ -137,6 +137,8 @@ endif
 "       \ }}
 NeoBundle 'vim-jp/autofmt'  " for Japanese hyphenation
 NeoBundle 'bronson/vim-trailing-whitespace'
+" NeoBundle 'terryma/vim-expand-region'
+" NeoBundle 'weynhamz/vim-plugin-minibufexpl'
 
 
 call neobundle#end()
@@ -371,6 +373,12 @@ endif
 if neobundle#tap('vim-trailing-whitespace')
   let g:extra_whitespace_ignored_filetypes = ['calendar', 'unite']
 endif
+if neobundle#tap('vim-expand-region')
+    " Tap v several times to expand selection, and <C-v> to shrink it.
+    vmap v <Plug>(expand_region_expand)
+    vmap <C-v> <Plug>(expand_region_shrink)
+endif
+
 
 filetype plugin indent on  " Required!
 

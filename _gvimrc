@@ -24,3 +24,18 @@ source $VIMRUNTIME/menu.vim
 
 " Do not use pop-up dialogue (use console dialogue instead). See: :help go-c
 set guioptions+=c
+
+" Minify font (for privacy reasons)
+command MinFont call MinifyFont()
+let g:minifyfont_on = 0
+function! MinifyFont()
+    if g:minifyfont_on
+        set guifont=Ricty\ Regular:h16
+        let g:minifyfont_on = 0
+        echo 'MinFont is off.'
+    else
+        set guifont=Ricty\ Regular:h7
+        let g:minifyfont_on = 1
+        echo 'MinFont is on.'
+    endif
+endfunction
