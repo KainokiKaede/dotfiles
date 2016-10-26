@@ -34,12 +34,18 @@ set spelllang=en,cjk       " Only check English spells when ':set spell'
 set list                   " Show invisible characters.
 set listchars=tab:>.,trail:_,extends:>,precedes:<   " How to show invisibles.
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4  " Python-like indentation
+set directory=~/vimfiles/swp  " Set directory for .swp files.
 if v:version >= 704
     set undodir=~/vimfiles/undo  " Set directory for .un~ files.
+endif
+if v:version >= 800
+    set breakindent  " Beautifully visualize lines with indent.
+    set breakindentopt=min:20,shift:3,sbr  " Set line indent options.
 endif
 syntax enable      " Syntax highlight: see :help syntax-on for alternative
 " Set colorscheme. Defaults I like: torte, koehler, desert, slate, pablo
 try | colorscheme desert256 | catch | colorscheme torte | endtry
+" Syntax under cursor: `echo synIDattr(synID(line('.'), col('.'), 0), 'name')`
 let mapleader = "\<Space>"  " Space as leader: http://postd.cc/how-to-boost-your-vim-productivity/
 
 " initialize augroup 'vimrc'.
@@ -321,8 +327,9 @@ inoremap (( ()<LEFT>
 vnoremap { "zdi{<C-R>z}<ESC>
 vnoremap [ "zdi[<C-R>z]<ESC>
 vnoremap ( "zdi(<C-R>z)<ESC>
-vnoremap " "zdi"<C-R>z"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
+" Do not use this unless you don't use registers (disables "xy etc.).
+" vnoremap " "zdi"<C-R>z"<ESC>
 
 " Move in insert mode
 inoremap <C-L> <RIGHT>
@@ -547,11 +554,11 @@ function! CreateMarkdownHyperLinkWithTitle()
     execute 'normal "ayiu'
     let url = @a
     let title = GetWebPageTitle(url)
-    execute 'normal viuS)i['.title.']'
+    execute 'normal viuS(i['.title.']'
     let @a = areg
 endfunction
 function! CreateMarkdownHyperLink()
-    execute 'normal viuS)i[]'
+    execute 'normal viuS(i[]'
     startinsert
 endfunction
 
@@ -560,3 +567,38 @@ autocmd vimrc FileType markdown setlocal textwidth=0
 
 " Set markdown commentstring (Is set by vim-markdown, but not what I like).
 autocmd FileType markdown setl commentstring=<!--%s-->
+
+" Force redraw with easy-to-type command (:redraw w/o ! doesn't do the work).
+command Redraw redraw!
+
+" Easily go to the head/tail of the line & search the word under the cursor.
+noremap <Space>h  ^
+noremap <Space>l  $
+nnoremap <Space>/  *
+
+" Avoid strings like <D-d> written in insert mode.
+inoremap <D-d> <Nop>
+inoremap <D-j> <Nop>
+inoremap <D-k> <Nop>
+inoremap <D-'> <Nop>
+inoremap <D-e> <Nop>
+inoremap <D-r> <Nop>
+inoremap <D-y> <Nop>
+inoremap <D-u> <Nop>
+inoremap <D-i> <Nop>
+inoremap <D-1> <Nop>
+inoremap <D-2> <Nop>
+inoremap <D-3> <Nop>
+inoremap <D-4> <Nop>
+inoremap <D-5> <Nop>
+inoremap <D-6> <Nop>
+inoremap <D-7> <Nop>
+inoremap <D-8> <Nop>
+inoremap <D-9> <Nop>
+inoremap <D-0> <Nop>
+
+" No autoindent in markdown
+" autocmd FileType markdown setlocal indentexpr=
+" autocmd FileType markdown setlocal nocindent
+" autocmd FileType markdown setlocal nosmartindent
+" autocmd FileType markdown setlocal noautoindent

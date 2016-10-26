@@ -1,7 +1,7 @@
 # Mostly from http://kwakita.wordpress.com/2014/04/01/my-latexmkrc-setting/
 @default_files = ('main.tex');
 $tmpdir = '/tmp';
-$latexargs          = '-shell-escape -synctex=1';
+$latexargs          = '-shell-escape -synctex=1 -halt-on-error';
 $latexsilentargs    = $latexargs . ' -interaction=batchmode';
 $latex            = 'uplatex ' . $latexargs;
 $latex_silent     = 'uplatex ' . $latexsilentargs;

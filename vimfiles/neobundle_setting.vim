@@ -58,7 +58,7 @@ NeoBundle 'Shougo/neosnippet-snippets'
 " Requires: pip install jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
-NeoBundleLazy 'kevinw/pyflakes-vim', {
+NeoBundleLazy 'scrooloose/syntastic', {
     \ "autoload" : { "filetypes" : [ "python", "python3", "djangohtml" ] } }
 " Requires: brew install ctags
 NeoBundleLazy 'majutsushi/tagbar', {
@@ -117,16 +117,22 @@ if v:version >= 703
     NeoBundle 'vim-scripts/CSApprox'
 endif
 " NeoBundle 'SirVer/ultisnips'  " Needs has(python). If use, read quick start.
-NeoBundle 'amirh/HTML-AutoCloseTag'
-NeoBundle 'gorodinskiy/vim-coloresque'
+NeoBundleLazy 'amirh/HTML-AutoCloseTag', {
+      \ "autoload": {
+      \   "filetypes": ["html", "djangohtml"]
+      \ }}
+NeoBundleLazy 'gorodinskiy/vim-coloresque', {
+      \ "autoload": {
+      \   "filetypes": ["html", "djangohtml"]
+      \ }}
 NeoBundle 'kana/vim-smartword'
 " NeoBundle 'cohama/lexima.vim'  " Auto close parenthesis
 if v:version >= 704
     NeoBundle 'haya14busa/incsearch.vim'
 endif
-if has('mac')
-    NeoBundle 'neilagabriel/vim-geeknote'
-endif
+" if has('mac')
+"     NeoBundle 'neilagabriel/vim-geeknote'
+" endif
 " NeoBundleLazy 'rbtnn/rabbit-ui.vim', {
 "       \ "autoload": {
 "       \   "filetypes": ["csv", "tsv"]
@@ -136,9 +142,14 @@ endif
 "       \   "filetypes": ["csv", "tsv"]
 "       \ }}
 NeoBundle 'vim-jp/autofmt'  " for Japanese hyphenation
-NeoBundle 'bronson/vim-trailing-whitespace'
+" NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'ntpeters/vim-better-whitespace'
 " NeoBundle 'terryma/vim-expand-region'
 " NeoBundle 'weynhamz/vim-plugin-minibufexpl'
+NeoBundleLazy 'itchyny/vim-cursorword', {
+      \ "autoload": {
+      \   "filetypes": ["python", "vim"]
+      \ }}
 
 
 call neobundle#end()
@@ -151,6 +162,30 @@ if neobundle#tap('vim-polyglot')
     autocmd BufNewFile,BufReadPre *.tsv let g:csv_delim='	'
     " Markdown
     " let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml', 'python', 'diff', 'cpp']
+    function! s:setMarkdownColor()
+      hi link htmlItalic LineNr
+      hi link htmlBold WarningMsg
+      hi link htmlBoldItalic ErrorMsg
+    endfunction
+    call s:setMarkdownColor()
+
+    " Toggle strong/italic <-> hidden text, in order to memorise them.
+    " Use autocmd to set color after colorscheme is loaded (otherwise highlight can be cleared by other scripts).
+    autocmd ColorScheme * highlight HiddenText ctermfg=15 ctermbg=15 guifg=White guibg=White
+    command Anki call s:toggleHide()
+    function! s:toggleHide()
+      if exists('b:synhideText')==0
+        " hide
+        hi link htmlItalic HiddenText
+        hi link htmlBold HiddenText
+        hi link htmlBoldItalic HiddenText
+        let b:synhideText=1
+      else
+        " Unhide
+        call s:setMarkdownColor()
+        unlet b:synhideText
+      endif
+    endfunction
 endif
 if neobundle#tap('clever-f.vim')
     let g:clever_f_ignore_case=1  " Ignore case
@@ -215,6 +250,7 @@ if neobundle#tap('ctrlp.vim')
     let g:ctrlp_clear_cache_on_exit = 0   " Do not clear cache on exit.
     let g:ctrlp_cmd = 'CtrlPMRU'
     " let g:ctrlp_extensions = ['tag', 'buffertag', 'bookmarkdir']
+    let g:ctrlp_mruf_exclude = 'プ'  " Exclude annoying duplications due to handakuten.
     command BufferCtrlP :CtrlPBuffer
 endif
 if neobundle#tap('ctrlp-memolist')
@@ -232,6 +268,17 @@ if neobundle#tap('jedi-vim')
     let g:jedi#popup_select_first = 0
     let g:jedi#completions_command = "<C-n>"
     " let g:jedi#show_call_signatures = 0  " avoid placeholder ≡jedi≡ to be left.
+    " Following settings are to use jedi.vim with neocomplete.
+    " Original: http://dackdive.hateblo.jp/entry/2014/08/13/130000
+    autocmd FileType python setlocal omnifunc=jedi#completions
+    " let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+
+    let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 endif
 if neobundle#tap('tagbar')
     let g:tagbar_type_typescript = {'ctagstype': 'typescript',
@@ -338,7 +385,7 @@ if neobundle#tap('LaTeX-Box')
     " Use compl-omni by <C-n>
     inoremap <C-n> <C-x><C-o>
     " Close current environment by ]] (see :h latex-box-mappings-insertion)
-    imap <buffer> ]]     <Plug>LatexCloseCurEnv
+    imap ]] <Plug>LatexCloseCurEnv
 endif
 if neobundle#tap('vim-smartword')
     nmap w   <Plug>(smartword-w)
@@ -373,11 +420,25 @@ endif
 if neobundle#tap('vim-trailing-whitespace')
   let g:extra_whitespace_ignored_filetypes = ['calendar', 'unite']
 endif
+if neobundle#tap('vim-better-whitespace')
+  " If the buffer is not modifiable, disable highlighting trailing spaces.
+  autocmd BufWinEnter * call s:disableWhiteSpaceHighlight()
+  function! s:disableWhiteSpaceHighlight()
+    if !&modifiable
+      DisableWhitespace
+    endif
+  endfunction
+endif
 if neobundle#tap('vim-expand-region')
     " Tap v several times to expand selection, and <C-v> to shrink it.
     vmap v <Plug>(expand_region_expand)
     vmap <C-v> <Plug>(expand_region_shrink)
 endif
+if neobundle#tap('vim-surround')
+    autocmd FileType markdown let b:surround_{char2nr("&")} = " *\r* "
+    autocmd FileType markdown let b:surround_{char2nr("*")} = " **\r** "
+endif
+
 
 
 filetype plugin indent on  " Required!
